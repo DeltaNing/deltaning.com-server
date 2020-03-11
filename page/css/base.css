@@ -1,0 +1,189 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+@font-face {
+    font-family: 'MyIcon';
+    src: url("../font/glyphicons-halflings-regular.woff2");
+}
+
+body {
+    background: #ebebeb;
+    text-align: center;
+    color: #333333;
+}
+
+.header {
+    height: 50px;
+    background-color: #5f438c;
+    color: #eeeeee;
+}
+
+.container {
+    position: relative;
+    width: 1170px;
+    height: 50px;
+    margin: 0 auto;
+    padding: 0 15px;
+    /*background-color: slategray;*/
+    text-align: center;
+}
+
+.title {
+    float: left;
+    font-size: 18px;
+    line-height: 50px;
+    margin-right: 15px;
+    color: #eeeeee;
+    text-decoration: none;
+}
+
+.menu {
+    float: left;
+}
+
+.menu > li {
+    display: inline-block;
+    width: 58px;
+    height: 50px;
+    line-height: 50px;
+}
+
+.menu > li > a {
+    text-decoration: none;
+    color: #eeeeee;
+    font-size: 14px;
+}
+
+.search-bar > input {
+    position: absolute;
+    top: 50%;
+    margin-top: -18px;
+    right: 70px;
+    height: 24px;
+    padding: 5px 10px;
+    font-size: 14px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid #ccc;
+    color: #555555;
+}
+
+.search-bar > button {
+    position: absolute;
+    top: 50%;
+    margin-top: -18px;
+    right: 15px;
+    height: 36px;
+    padding: 6px 10px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid #cccccc;
+    color: #333333;
+}
+
+.content {
+    position: relative;
+    width: 1170px;
+    background: #fed;
+    margin: 20px auto 0;
+}
+
+.content-left {
+    display: inline-block;
+    float: left;
+    width: 66%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 0 15px 0 0;
+    /*background-color: slategray;*/
+}
+
+.content-right {
+    display: inline-block;
+    float: right;
+    width: 34%;
+    padding: 0 0 0 15px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    /*background-color: aqua;*/
+}
+
+.right-module {
+    background: #7755ae;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.right-module-title {
+    background: #5f438c;
+    color: #00cf6f;
+    -webkit-border-radius: 5px 0 0 5px;
+    -moz-border-radius: 5px 0 0 5px;
+    border-radius: 5px 5px 0 0;
+    padding: 10px 15px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.right-list {
+    text-align: left;
+    padding: 15px;
+}
+.right-list > a {
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 5px;
+}
+
+.right-module > dd {
+    position: relative;
+    text-align: left;
+    padding: 10px 15px;
+}
+
+.right-module > dd:not(:last-child) {
+    border-bottom: 1px solid slategray;
+}
+
+.right-module > dd > a {
+    font-size: 14px;
+    color: #ffffff;
+    text-decoration: none;
+}
+
+.right-module.divide50 > dd {
+    display: inline-block;
+    width: 49%;
+    padding: 8px;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.right-comment-list-item > .comment-name {
+    font-weight: 700;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.right-module > dd.right-comment-list-item > a {
+    color: #aaa;
+}
+.pull-right {
+    position: absolute;
+    font-size: 14px;
+    right: 15px;
+    top: 10px;
+    color: #ffffff;
+}
