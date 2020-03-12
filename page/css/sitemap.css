@@ -1,0 +1,51 @@
+body {
+    background: #ffffff;
+    color: #333333;
+}
+
+h1 {
+    font-size: 18px;
+    margin-top: 20px;
+}
+
+.nav, .sitemap-list {
+    width: 95%;
+    margin: 15px auto;
+    text-align: left;
+    color: #333333;
+    padding: 6px;
+    border: 1px #e4ddeb solid;
+}
+
+.nav > a {
+    color: #333333;
+    font-size: 14px;
+}
+
+.nav > a:first-of-type {
+    font-weight: 600;
+}
+
+h2 {
+    font-size: 14px;
+    margin: 10px 0;
+}
+
+.sitemap-list > ul {
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+.sitemap-list > ul > li {
+    padding: 5px;
+}
+
+.sitemap-list > ul > li > a {
+    font-size: 12px;
+    color: #333333;
+}
+
+.sitemap-list > ul > li > a:focus, .sitemap-list > ul > li > a:hover {
+    color: #61b21d;
+
+}

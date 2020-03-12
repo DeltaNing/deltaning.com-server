@@ -9,7 +9,7 @@
 }
 
 body {
-    background: #ebebeb;
+    background: white;
     text-align: center;
     color: #333333;
 }
@@ -90,8 +90,9 @@ body {
 .content {
     position: relative;
     width: 1170px;
-    background: #fed;
-    margin: 20px auto 0;
+    /*background: #fed;*/
+    margin: 30px auto 0;
+    display: inline-block;
 }
 
 .content-left {
@@ -186,4 +187,17 @@ body {
     right: 15px;
     top: 10px;
     color: #ffffff;
+}
+
+.footer {
+    background: #5f438c;
+    padding: 20px 0;
+}
+
+.footer > p > a {
+    display: inline-block;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    margin: 10px;
 }
