@@ -5,8 +5,10 @@
     <title>Delta's 博客</title>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/index.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 <body>
+<!--页面头部导航-->
     <header class="header">
         <div class="container">
             <a class="title" href="/">Delta个人博客 | 技术博客</a>
@@ -22,92 +24,52 @@
             </div>
         </div>
     </header>
+    <!--页面主体-->
     <main class="content">
+        <!--主体左半部分-->
         <div class="content-left">
-            <div class="every-day">
+            <!--每日一句-->
+            <div id="everyDay" class="every-day">
                 <span>每日一句</span>
-                <p>The golden rule is that there are no golden rules.</p>
+                <p v-html="getContent">The golden rule is that there are no golden rules.</p>
                 <p>———— George Bernard Shaw</p>
             </div>
-            <div class="article-list">
-                <div class="article">
+            <!--文章列表-->
+            <div id="articleList" class="article-list">
+                <div class="article" v-for="article in getArticleList">
                     <div class="article-body">
-                        <a href="/" class="article-title">Laravel5.4安装passport时遇到的一些问题</a>
-                        <p class="article-content">
-                            安装时可能不支持高版本，我使用了composer require laravel/passport ~4.0安装后执行迁移时nothing to migrate，需要手动注册Provider， 在config/app.php中providers中添加Laravel\Passport\PassportServiceProvider::class。执行php artisan passport:install时提示“There are no commands defined in the “passport” namespace.” 需要执行cache:clear和config:cache 更新缓存。...
-                        </p>
+                        <a :href="article.link" class="article-title">{{article.title}}</a>
+                        <p class="article-content">{{article.content}}</p>
                     </div>
                     <div class="article-footer">
-                        发布于2019-12-06 |  浏览(5,254) | Tags：laravel
-                    </div>
-                </div>
-                <div class="article">
-                    <div class="article-body">
-                        <a href="/" class="article-title">Laravel5.4安装passport时遇到的一些问题</a>
-                        <p class="article-content">
-                            安装时可能不支持高版本，我使用了composer require laravel/passport ~4.0安装后执行迁移时nothing to migrate，需要手动注册Provider， 在config/app.php中providers中添加Laravel\Passport\PassportServiceProvider::class。执行php artisan passport:install时提示“There are no commands defined in the “passport” namespace.” 需要执行cache:clear和config:cache 更新缓存。...
-                        </p>
-                    </div>
-                    <div class="article-footer">
-                        发布于2019-12-06 |  浏览(5,254) | Tags：laravel
+                        发布于{{article.date}} |  浏览({{article.views}}) | Tags：{{article.tags}}
                     </div>
                 </div>
             </div>
         </div>
+        <!--主体右半部分-->
         <div class="content-right">
             <!--随机云标签-->
-            <div class="right-module">
+            <div id="randomTags" class="right-module">
                 <div class="right-module-title">随机标签云</div>
                 <div class="right-list">
-                    <a href="/">dfgyyjuttrgefhtml</a><a href="/">css</a><a href="/">js</a>
-                    <a href="/">php</a><a href="/">html</a><a href="/">css</a>
-                    <a href="/">js</a><a href="/">phpjlkjlj;dfhslj</a>
+                    <a href="/" v-for="tag in getTags" :style="{color: tagColor(), fontSize: tagSize()}">{{tag}}</a>
                 </div>
             </div>
             <!--最近热门-->
-            <dl class="right-module">
+            <dl id="newHot" class="right-module">
                 <dt class="right-module-title">最近热门</dt>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                </dd>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                </dd>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                </dd>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                </dd>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                </dd>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
+                <dd v-for="item in getNewHotList">
+                    <a target="_blank" :href="item.link">{{item.title}}</a>
                 </dd>
             </dl>
             <!--最新评论-->
-            <dl class="right-module">
+            <dl id="newComments" class="right-module">
                 <dt class="right-module-title">最新评论</dt>
-                <dd class="right-comment-list-item">
-                    <p class="comment-name">入驻邀请</p>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                    <span class="pull-right">[1周前]</span>
-                </dd>
-                <dd class="right-comment-list-item">
-                    <p class="comment-name">入驻邀请</p>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                    <span class="pull-right">[1周前]</span>
-                </dd>
-                <dd class="right-comment-list-item">
-                    <p class="comment-name">入驻邀请</p>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                    <span class="pull-right">[1周前]</span>
-                </dd>
-                <dd class="right-comment-list-item">
-                    <p class="comment-name">入驻邀请</p>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                    <span class="pull-right">[1周前]</span>
+                <dd class="right-comment-list-item" v-for="item in getNewCommentsList">
+                    <p class="comment-name">{{item.guestName}}</p>
+                    <a :href="item.link">{{item.title}}</a>
+                    <span class="pull-right">[{{item.date}}]</span>
                 </dd>
             </dl>
             <!--友情链接-->
@@ -142,5 +104,9 @@
             <a target="_blank" href="http://www.beian.miit.gov.cn/">豫ICP备19034739号</a>
         </p>
     </footer>
+
+
+<script src="./js/index.js"></script>
+<script src="./js/base.js"></script>
 </body>
 </html>
