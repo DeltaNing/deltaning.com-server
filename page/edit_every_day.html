@@ -19,8 +19,21 @@
     <script src="./bootstrap-wysiwyg-master/bootstrap-wysiwyg.js"></script>
     <script>
         function submit() {
-            alert('已提交');
+            // alert('已提交');
             let content = $('#editor').html();
+            $.ajax({
+                url: '/editEveryday',
+                method: 'post',
+                data: content,
+                success: function (res) {
+                    var result = JSON.parse(res);
+                    console.log(result);
+                    $('#editor').html('');
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
         }
     </script>
     <style>
