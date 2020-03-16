@@ -16,6 +16,15 @@ function editEveryday(request, response) {
     })
 }
 
+function queryEveryday(request, response) {
+    everydayDao.queryEveryday(function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult("success", "添加成功", result));
+        response.end();
+    });
+}
+
 path.set('/editEveryday', editEveryday);
+path.set('/queryEveryday', queryEveryday);
 
 module.exports.path = path;

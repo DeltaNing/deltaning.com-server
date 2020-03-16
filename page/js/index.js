@@ -9,7 +9,14 @@ var everyDay = new Vue({
         }
     },
     created() {
-        // todo: 向后台请求最新的每日一句
+        axios({
+            method: 'get',
+            url: '/queryEveryday'
+        }).then(function (res) {
+            everyDay.content = res.data.data[0].content;
+        }).catch(function (err) {
+            console.log(err)
+        })
     }
 });
 
