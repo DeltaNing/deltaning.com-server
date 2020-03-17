@@ -1,4 +1,4 @@
-
+// 每日一句路由中所有的回调函数
 var path = new Map();
 var everydayDao = require('../dao/EverydayDao');
 var timeUtil = require('../util/TimeUtil');

@@ -1,4 +1,4 @@
-/* 加载所有接口 */
+/* 加载所有web文件夹中所有接口的回调函数 */
 
 var fs = require("fs");
 var globalConfig = require("./config"); // 读取所有配置
@@ -10,7 +10,7 @@ var files = fs.readdirSync(globalConfig['web_path']); // 读取路径下的所�
 console.log('files:', files);
 for (var i = 0; i < files.length; i ++) {
     let temp = require('./' + globalConfig["web_path"] + '/' + files[i]);
-    console.log(temp)
+    // console.log(temp)
     if (temp.path) {
         for (var [key, value] of temp.path) {
             if (pathMap.get(key) == null) {

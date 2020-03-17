@@ -19,10 +19,26 @@
     <script src="./bootstrap-wysiwyg-master/bootstrap-wysiwyg.js"></script>
     <script>
         function submit() {
-            alert('已提交');
-            let title = $('#title').html(),
-                tags = $('#tags').html(),
+            let title = $('#title').val(),
+                tags = $('#tags').val(),
                 content = $('#editor').html();
+            if (!title || !tags || !content) {
+                alert('内容不能为空');
+                return false;
+            }
+            $.ajax({
+                url: '/editBlog?title=' + title + '&tags=' + tags,
+                method: 'post',
+                data: content,
+                success: function (res) {
+                    var result = JSON.parse(res);
+                    console.log(result);
+                    $('#editor').html('');
+                },
+                error: function (err) {
+                    console.log(err)
+                }
+            })
         }
     </script>
     <style>
