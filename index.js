@@ -13,6 +13,12 @@ app.post('/editEveryday', loader.get('/editEveryday'));
 app.get('/queryEveryday', loader.get('/queryEveryday'));
 // 编辑文章接口
 app.post('/editBlog', loader.get('/editBlog'));
+// 获取文章列表
+app.get('/queryBlogByPage', loader.get('/queryBlogByPage'));
+// 获取文章总数
+app.get('/queryBlogCount', loader.get('/queryBlogCount'));
+// 通过文章id获取文章
+app.get('/queryBlogById', loader.get('/queryBlogById'));
 
 app.listen(globalConfig.port, function () {
    console.log("服务器已启动")

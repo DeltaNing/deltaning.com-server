@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Delta's 博客</title>
     <link rel="stylesheet" href="./css/base.css">
-    <link rel="stylesheet" href="./css/index.css">
+    <link rel="stylesheet" href="./css/blogDetail.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="./js/axios.js"></script>
 </head>
@@ -29,30 +29,15 @@
     <main class="content">
         <!--主体左半部分-->
         <div class="content-left">
-            <!--每日一句-->
-            <div id="everyDay" class="every-day">
-                <span>每日一句</span>
-                <p v-html="getContent">The golden rule is that there are no golden rules.</p>
+            <!--博客内容-->
+            <div class="blog-body" id="blogDetail">
+                <div class="blog-title">{{title}}</div>
+                <div class="blog-msg">作者：Delta 标签：{{tags}} 发布于：{{ctime}} 浏览（{{views}}）</div>
+                <div class="blog-content" v-html="content"></div>
             </div>
-            <!--文章列表-->
-            <div id="articleList" class="article-list">
-                <div class="article" v-for="article in articleList">
-                    <div class="article-body">
-                        <a :href="article.link" class="article-title">{{article.title}}</a>
-                        <p class="article-content">{{article.content}}</p>
-                    </div>
-                    <div class="article-footer">
-                        发布于{{article.date}} |  浏览({{article.views}}) | Tags：{{article.tags}}
-                    </div>
-                </div>
+            <!--留言部分-->
+            <div class="blog-guest-book">
 
-                <div class="pageTools">
-                    <ul>
-                        <li v-for="item in pageNumList"
-                            @click="jumpTo(item.page)"
-                            :class="{activePage: item.text==nowPage}">{{item.text}}</li>
-                    </ul>
-                </div>
             </div>
         </div>
         <!--主体右半部分-->
@@ -114,7 +99,7 @@
     </footer>
 
 
-<script src="./js/index.js"></script>
+<script src="./js/blogDetail.js"></script>
 <script src="./js/base.js"></script>
 </body>
 </html>

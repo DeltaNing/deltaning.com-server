@@ -202,3 +202,30 @@ body {
     font-size: 14px;
     margin: 10px;
 }
+
+.pageTools {
+    padding: 20px 0;
+}
+.pageTools > ul > li {
+    list-style: none;
+    display: inline-block;
+    background: #e4ddeb;
+    color: #333333;
+    width: 50px;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    margin: 5px;
+    padding: 5px 0;
+    cursor: pointer;
+}
+
+.pageTools > ul > li:hover {
+    background: #7a609f;
+    color: #ffffff;
+}
+
+.activePage {
+    background: #5f438c !important;
+    color: #ffffff !important;
+}

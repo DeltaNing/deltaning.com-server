@@ -58,6 +58,7 @@
     -ms-word-break: keep-all;
     word-break: keep-all;
     overflow: hidden;
+    text-align: justify;
 }
 
 .article-footer {

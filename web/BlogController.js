@@ -6,6 +6,45 @@ var timeUtil = require('../util/TimeUtil');
 var respUtil = require('../util/WriteUtil');
 var url = require('url');
 
+function queryBlogById(request, response) {
+    var params = url.parse(request.url, true).query;
+    blogDao.queryBlogById(parseInt(params.bid), function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult('success', '查询成功', result));
+        response.end()
+    })
+}
+
+path.set('/queryBlogById', queryBlogById);
+
+function queryBlogCount(request, response) {
+    blogDao.queryBlogCount(function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult('success', '查询成功', result));
+        response.end()
+    })
+}
+
+path.set('/queryBlogCount', queryBlogCount);
+
+function queryBlogByPage(request, response) {
+    var params = url.parse(request.url, true).query;
+    // console.log(params);
+    blogDao.queryBlogByPage(parseInt(params.page), parseInt(params.pageSize), function (result) {
+        // console.log(result);
+        for (var i = 0; i < result.length; i ++) {
+            result[i].content = result[i].content.replace(/<img[\w\W]*">/, ''); // 去除img标签
+            result[i].content = result[i].content.replace(/<[^>]+>/g, ''); // 去除其他标签
+            result[i].content = result[i].content.replace(/&nbsp;/g, ''); // 去除空行
+            result[i].content = result[i].content.substring(0, 300) + '...';
+        }
+        response.writeHead(200);
+        response.write(respUtil.writeResult("success", "查询成功", result));
+        response.end();
+    })
+}
+
+path.set('/queryBlogByPage', queryBlogByPage);
 function editBlog(req, res) {
     // 获取url中的参数
     var params = url.parse(req.url, true).query;

@@ -1,0 +1,28 @@
+.blog-body {
+    background-color: #e4ddeb;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px #ae9dc5;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.blog-title {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: left;
+    margin: 10px 0;
+}
+
+.blog-msg {
+    font-size: 14px;
+    text-align: left;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #7a609f;
+}
+
+.blog-content {
+    margin: 20px 0;
+    text-align: justify;
+}
