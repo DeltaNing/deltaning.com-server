@@ -42,3 +42,83 @@ var blogDetail = new Vue({
         })
     }
 });
+
+var sendComment = new Vue({
+    el: '#sendComment',
+    data: {
+        imgCode: '',
+        codeText: '',
+        tipText: '',
+        showTips: false
+    },
+    computed: {
+        getImgCode() {
+          return function () {
+              axios({
+                  method: 'get',
+                  url: '/queryRandomImgCode'
+              }).then(function (res) {
+                  sendComment.imgCode = res.data.data.data;
+                  sendComment.codeText = res.data.data.text;
+                  console.log(res)
+              }).catch(function (error) {
+                  console.log(error)
+              })
+          }
+        },
+        submitComment() {
+            return function () {
+                var urlSearchParams = location.search.indexOf('?') > -1 ? location.search.split('?')[1].split('&') : '';
+
+                if (!urlSearchParams) {
+                    return;
+                }
+
+                var bid = -1;
+
+                for (var i = 0; i < urlSearchParams.length; i ++) {
+                    if (urlSearchParams[i].split('=')[0] === 'bid') {
+                        try {
+                            bid = urlSearchParams[i].split('=')[1]
+                        } catch (e) {
+                            console.log(e)
+                        }
+                    }
+                }
+
+                var parent = document.sendCommentForm.parent.value;
+                var name = document.sendCommentForm.name.value;
+                var email = document.sendCommentForm.email.value;
+                var comments = document.sendCommentForm.comments.value;
+                var code = document.sendCommentForm.code.value;
+
+                if (!name || !email || !comments) {
+                    sendComment.tipText = '错误：信息不完整（昵称，邮箱）';
+                    sendComment.showTips = true;
+                    setTimeout(function () {
+                        sendComment.showTips = false;
+                    }, 2000);
+                    return;
+                }
+
+                if (code.toLowerCase() != sendComment.codeText.toLowerCase()) {
+                    alert('验证码错误');
+                    return;
+                }
+
+                axios({
+                    method: 'get',
+                    url: `/addComment?bid=${bid}&parent=${parent}&name=${name}&email=${email}&comments=${comments}`
+                }).then(function (res) {
+                    console.log(res)
+                }).catch(function (error) {
+                    console.log(error)
+                })
+            }
+
+        }
+    },
+    created() {
+        this.getImgCode();
+    }
+});

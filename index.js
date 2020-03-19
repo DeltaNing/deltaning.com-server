@@ -19,6 +19,11 @@ app.get('/queryBlogByPage', loader.get('/queryBlogByPage'));
 app.get('/queryBlogCount', loader.get('/queryBlogCount'));
 // 通过文章id获取文章
 app.get('/queryBlogById', loader.get('/queryBlogById'));
+// 添加评论
+app.get('/addComment', loader.get('/addComment'));
+
+// 生成二维码
+app.get('/queryRandomImgCode', loader.get('/queryRandomImgCode'));
 
 app.listen(globalConfig.port, function () {
    console.log("服务器已启动")

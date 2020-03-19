@@ -229,3 +229,79 @@ body {
     background: #5f438c !important;
     color: #ffffff !important;
 }
+
+/*留言部分样式*/
+.send-comment {
+    background-color: white;
+    /*background-color: #e4ddeb;*/
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 10px #ae9dc5;
+    padding: 20px;
+    margin-top: 50px;
+    text-align: left;
+}
+
+.comment-form-group {
+    padding: 10px 0;
+}
+
+.comment-name, .comment-code {
+    width: 34%;
+    margin-right: 10px;
+}
+
+.comment-email {
+    width: 50%;
+}
+
+.comment-content {
+    width: 100%;
+}
+
+.comment-form-group > .input {
+    display: inline-block;
+    height: 34px;
+    padding: 6px 10px;
+    border: 1px solid #c9bdd8;
+    border-radius: 5px;
+    font-size: 14px;
+    box-sizing: border-box;
+    vertical-align: middle;
+}
+
+.comment-form-group > .comment-content {
+    height: 100px;
+}
+
+.comment-form-group > .btn {
+    background: #ffffff;
+    cursor: pointer;
+    font-size: 14px;
+    outline: none;
+}
+
+.comment-form-group > .btn:hover {
+    background: #7a609f;
+    color: #ffffff;
+}
+
+.comment-form-group > .img-code {
+    display: inline-block;
+    line-height: 34px;
+    height: 34px;
+    vertical-align: middle;
+}
+
+.comment-form-group > .tips {
+    color: #ff0000;
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align: middle;
+    opacity: 0;
+}
+
+.show-tips {
+    opacity: 1 !important;
+}

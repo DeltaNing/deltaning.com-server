@@ -36,8 +36,29 @@
                 <div class="blog-content" v-html="content"></div>
             </div>
             <!--留言部分-->
-            <div class="blog-guest-book">
-
+            <div class="send-comment" id="sendComment">
+                <h3>发表评论</h3>
+                <form name="sendCommentForm">
+                    <input type="hidden" name="parent" value="-1">
+                    <div class="comment-form-group">
+                        <input class="comment-name input" type="text" placeholder="昵称" name="name">
+                        <input class="comment-email input" type="text" placeholder="邮箱（评论被回复时，你能收到通知）" name="email">
+                    </div>
+                    <div class="comment-form-group">
+                        <textarea class="comment-content input" name="comments" placeholder="无意义内容我可能不会回复你"></textarea>
+                    </div>
+                    <div class="comment-form-group">
+                        <input class="comment-code input" name="code" placeholder="验证码">
+                        <span class="img-code" @click="getImgCode()" v-html="imgCode"></span>
+                    </div>
+                    <div class="comment-form-group">
+                        <input class="comment-submit-btn btn input"
+                               @click="submitComment()"
+                               type="button" value="提交留言">
+                        <input class="comment-rewrite-btn btn input" type="button" value="重写">
+                        <span :class="{tips: true, 'show-tips': showTips}">{{tipText}}</span>
+                    </div>
+                </form>
             </div>
         </div>
         <!--主体右半部分-->
