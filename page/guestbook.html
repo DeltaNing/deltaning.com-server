@@ -5,6 +5,8 @@
     <title>Delta's 博客</title>
     <link rel="stylesheet" href="./css/base.css">
     <link rel="stylesheet" href="./css/guestbook.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./js/axios.js"></script>
 </head>
 <body>
     <header class="header">
@@ -30,84 +32,65 @@
                 <p class="red">不要皮，谢谢。</p>
             </div>
 
-            <div class="blog-comments">
-                <P>留言：目前有68 条留言</P>
-                <div class="blog-comment-item">
-                    <span class="blog-comment-username">啦啦啦啦：</span>发表于<span>2020年2月1日</span>
-                    [<a href="/" class="blog-comment-replay-btn">回复</a>]
-                    <p class="blog-comment-content">fgjhkjkl;jkyuyutfr67uikjhgtyu</p>
+            <!--显示留言-->
+            <div class="blog-comments" id="guestbookComments">
+                <P>留言：目前有{{totalCount}}条留言</P>
+                <div class="blog-comment-item" v-for="item in commentsList">
+                    <span class="blog-comment-username">{{item.user_name}}：{{item.options}}</span> 发表于{{item.ctime}}
+                    [<a class="blog-comment-replay-btn" @click="replayComment(item.id, item.user_name)">回复</a>]
+                    <p class="blog-comment-content">{{item.comments}}</p>
                 </div>
-                <div class="blog-comment-item">
-                    <span class="blog-comment-username">啦啦啦啦：</span>发表于<span>2020年2月1日</span>
-                    [<a href="/" class="blog-comment-replay-btn">回复</a>]
-                    <p class="blog-comment-content">fgjhkjkl;jkyuyutfr67uikjhgtyu</p>
-                </div>
-                <div class="blog-comment-item">
-                    <span class="blog-comment-username">啦啦啦啦：</span>发表于<span>2020年2月1日</span>
-                    [<a href="/" class="blog-comment-replay-btn">回复</a>]
-                    <p class="blog-comment-content">fgjhkjkl;jkyuyutfr67uikjhgtyu</p>
-                </div>
-                <div class="blog-comment-item">
-                    <span class="blog-comment-username">啦啦啦啦：</span>发表于<span>2020年2月1日</span>
-                    [<a href="/" class="blog-comment-replay-btn">回复</a>]
-                    <p class="blog-comment-content">fgjhkjkl;jkyuyutfr67uikjhgtyu</p>
-                </div>
+            </div>
+
+            <!--提交留言部分-->
+            <div class="send-comment" id="sendComment">
+                <h3>发表评论</h3>
+                <form name="sendCommentForm">
+                    <input type="hidden" name="parent" value="-1">
+                    <input type="hidden" name="parentName" value="0">
+                    <div class="comment-form-group">
+                        <input class="comment-name input" type="text" placeholder="昵称" name="name">
+                        <input class="comment-email input" type="text" placeholder="邮箱（评论被回复时，你能收到通知）" name="email">
+                    </div>
+                    <div class="comment-form-group">
+                        <textarea class="comment-content input" name="comments" placeholder="无意义内容我可能不会回复你"></textarea>
+                    </div>
+                    <div class="comment-form-group">
+                        <input class="comment-code input" name="code" placeholder="验证码">
+                        <span class="img-code" @click="getImgCode()" v-html="imgCode"></span>
+                    </div>
+                    <div class="comment-form-group">
+                        <input class="comment-submit-btn btn input"
+                               @click="submitComment()"
+                               type="button" value="提交留言">
+                        <input class="comment-rewrite-btn btn input" type="button" value="重写">
+                        <span :class="{tips: true, 'show-tips': showTips}">{{tipText}}</span>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="content-right">
             <!--随机云标签-->
-            <div class="right-module">
+            <div id="randomTags" class="right-module">
                 <div class="right-module-title">随机标签云</div>
                 <div class="right-list">
-                    <a href="/">dfgyyjuttrgefhtml</a><a href="/">css</a><a href="/">js</a>
-                    <a href="/">php</a><a href="/">html</a><a href="/">css</a>
-                    <a href="/">js</a><a href="/">phpjlkjlj;dfhslj</a>
+                    <a href="/" v-for="tag in getTags" :style="{color: tagColor(), fontSize: tagSize()}">{{tag}}</a>
                 </div>
             </div>
             <!--最近热门-->
-            <dl class="right-module">
+            <dl id="newHot" class="right-module">
                 <dt class="right-module-title">最近热门</dt>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                </dd>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                </dd>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                </dd>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                </dd>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                </dd>
-                <dd>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
+                <dd v-for="item in getNewHotList">
+                    <a target="_blank" :href="item.link">{{item.title}}</a>
                 </dd>
             </dl>
             <!--最新评论-->
-            <dl class="right-module">
+            <dl id="newComments" class="right-module">
                 <dt class="right-module-title">最新评论</dt>
-                <dd class="right-comment-list-item">
-                    <p class="comment-name">入驻邀请</p>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                    <span class="pull-right">[1周前]</span>
-                </dd>
-                <dd class="right-comment-list-item">
-                    <p class="comment-name">入驻邀请</p>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                    <span class="pull-right">[1周前]</span>
-                </dd>
-                <dd class="right-comment-list-item">
-                    <p class="comment-name">入驻邀请</p>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                    <span class="pull-right">[1周前]</span>
-                </dd>
-                <dd class="right-comment-list-item">
-                    <p class="comment-name">入驻邀请</p>
-                    <a href="/">使用码云git的webhook实现生产环境代</a>
-                    <span class="pull-right">[1周前]</span>
+                <dd class="right-comment-list-item" v-for="item in getNewCommentsList">
+                    <p class="comment-name">{{item.guestName}}</p>
+                    <a :href="item.link">{{item.title}}</a>
+                    <span class="pull-right">[{{item.date}}]</span>
                 </dd>
             </dl>
             <!--友情链接-->
@@ -142,5 +125,8 @@
             <a target="_blank" href="http://www.beian.miit.gov.cn/">豫ICP备19034739号</a>
         </p>
     </footer>
+
+    <script src="./js/guestbook.js"></script>
+    <script src="./js/base.js"></script>
 </body>
 </html>
