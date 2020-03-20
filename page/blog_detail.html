@@ -41,7 +41,7 @@
                 <P>{{title}}：目前有68 条留言</P>
                 <div class="blog-comment-item" v-for="item in commentsList">
                     <span class="blog-comment-username">{{item.user_name}}：{{item.parent_name}}</span>发表于{{item.ctime}}
-                    [<a href="/" class="blog-comment-replay-btn">回复</a>]
+                    [<a href="/" class="blog-comment-replay-btn" @click="replayComment()">回复</a>]
                     <p class="blog-comment-content">{{item.comments}}</p>
                 </div>
             </div>

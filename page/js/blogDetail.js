@@ -137,7 +137,6 @@ var blogComments = new Vue({
     },
     computed: {
         title: function () {
-            console.log(blogDetail.title)
             return blogDetail.title
         },
         getComments() {
@@ -163,10 +162,16 @@ var blogComments = new Vue({
                     url: `/queryCommentsById?bid=${bid}`,
                     method: 'get'
                 }).then(function (res) {
+                    blogComments.commentsList = res.data.data;
                     console.log(res)
                 }).catch(function (error) {
                     console.log(error)
                 })
+            }
+        },
+        replayComment() {
+            return function () {
+
             }
         }
     },
