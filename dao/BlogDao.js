@@ -72,9 +72,16 @@ function queryBlogCount(success) {
 }
 
 function queryBlogById(bid, success) {
-    // 定义插入数据库语句
-    var querySql = 'select * from blog where id=?';
-    var params = [bid];
+    var querySql, params;
+    if (typeof bid === 'number') { // 查询某一篇文章
+        querySql = 'select * from blog where id=?';
+        params = [bid];
+    } else if (typeof bid === 'object') { //查询几篇文章
+        // 将数组转成字符串
+        var str = bid.toString();
+        querySql = 'select * from blog where id in (' + str + ') order by id desc';
+        params = [];
+    }
 
     // 链接数据库并执行插入操作
     var connection = dbutil.createConnection();

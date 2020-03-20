@@ -1,5 +1,20 @@
 var dbutil = require('./DBUtil');
 
+function queryAllTags(success) {
+ var querySql = 'select * from tags';
+ var params = [];
+
+ var connection = dbutil.createConnection();
+ connection.connect();
+ connection.query(querySql, params, function (error, result) {
+     if (error == null) {
+         success(result)
+     } else {
+         console.log('TagsDao Error: ', error)
+     }
+ })
+}
+
 function queryTag(tag, success) {
     // 定义插入数据库语句
     var querySql = 'select * from tags where tag=?';
@@ -51,3 +66,4 @@ function insertTag(tag, ctime, utime, success) {
 
 module.exports.queryTag = queryTag;
 module.exports.insertTag = insertTag;
+module.exports.queryAllTags = queryAllTags;

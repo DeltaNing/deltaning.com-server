@@ -1,23 +1,9 @@
 let randomTags = new Vue({
    el: '#randomTags',
    data: {
-       tags: [
-           'sabre', 'awe', 'adw', 'weg', 'abandon', 'bundle', 'city', 'dead', 'fight', 'eggs', 'ground', 'height', 'insight', 'jungle', 'knowledge', 'link', 'monster', 'nothing', 'open', 'penguin', 'queue', 'right', 'snow', 'tiny', 'ugly', 'victory', 'willing', 'x', 'yelling', 'zinc'
-       ]
+       tagList: [{link: '', tag: ''}]
    },
     computed: {
-        getTags() {
-            return function () {
-                axios({
-                    url: '/queryRandomTags',
-                    method: 'get'
-                }).then(function (res) {
-                    console.log(res)
-                }).catch(function (error) {
-                    console.log(error)
-                })
-            }
-        },
         tagColor() {
             return function () {
                 let r = Math.random() * 255 + 50,
@@ -33,7 +19,23 @@ let randomTags = new Vue({
         }
     },
     created() {
-        // todo: 获取标签列表
+       // 获取随机标签
+        axios({
+            url: '/queryRandomTags',
+            method: 'get'
+        }).then(function (res) {
+            var result = res.data.data;
+            var list = [];
+            for (var i = 0; i < result.length; i ++) {
+                list.push({
+                    tag: result[i].tag,
+                    link: '/?tagId='+ result[i].id
+                });
+            }
+            randomTags.tagList = list;
+        }).catch(function (error) {
+            console.log(error)
+        })
     }
 });
 

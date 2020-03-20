@@ -44,6 +44,14 @@ app.get('/queryCommentsCountById', loader.get('/queryCommentsCountById'));
 // 获取所有文章列表--地图页面
 app.get('/queryAllBlog', loader.get('/queryAllBlog'));
 
+
+// 获取随机云标签
+app.get('/queryRandomTags', loader.get('/queryRandomTags'));
+
+
+// 根据标签id查询所有blog的id
+app.get('/queryBlogsByTagId', loader.get('/queryBlogsByTagId'));
+
 app.listen(globalConfig.port, function () {
    console.log("服务器已启动")
 }); // 监听12306端口

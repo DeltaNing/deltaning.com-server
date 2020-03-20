@@ -61,7 +61,9 @@
             <div id="randomTags" class="right-module">
                 <div class="right-module-title">随机标签云</div>
                 <div class="right-list">
-                    <a href="/" v-for="tag in getTags" :style="{color: tagColor(), fontSize: tagSize()}">{{tag}}</a>
+                    <a v-for="tag in tagList"
+                       :href="tag.link"
+                       :style="{color: tagColor(), fontSize: tagSize()}">{{tag.tag}}</a>
                 </div>
             </div>
             <!--最近热门-->

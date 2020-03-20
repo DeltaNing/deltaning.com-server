@@ -21,7 +21,7 @@ function insertTagBlogMapping(tagId, blogId, ctime, utime, success) {
             success(result)
         } else {
             // 若有错误，将错误打印到服务器控制台
-            console.log('BlogDao Error: ', error)
+            console.log('TagBlogMapping Error: ', error)
         }
     });
     // 3、 断开数据库连接
@@ -29,4 +29,26 @@ function insertTagBlogMapping(tagId, blogId, ctime, utime, success) {
 }
 
 
+function queryBlogIdByTagId(tagId, success) {
+    var querySql = 'select * from tag_blog_mapping where tag_id = ?';
+    var params = [tagId];
+
+    var connection = dbutil.createConnection();
+    connection.connect();
+    connection.query(querySql, params, function (error, result) {
+        if (error == null) {
+            var blogIdList = [];
+            for (var i = 0; i < result.length; i ++) {
+                blogIdList.push(result[i].blog_id)
+            }
+            success(blogIdList)
+        } else {
+            // 若有错误，将错误打印到服务器控制台
+            console.log('TagBlogMapping Error: ', error)
+        }
+    })
+}
+
+
 module.exports.insertTagBlogMapping = insertTagBlogMapping;
+module.exports.queryBlogIdByTagId = queryBlogIdByTagId;

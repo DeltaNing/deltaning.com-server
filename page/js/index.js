@@ -64,40 +64,82 @@ var articleList = new Vue({
         },
         getPage: function () {
             return function (page, pageSize) {
-                // todo: 获取article列表
-                axios({
-                    url: '/queryBlogByPage?page=' + (page - 1) + '&pageSize=' + pageSize,
-                    method: 'get'
-                }).then(function (res) {
-                    var result = res.data.data;
-                    var list = [];
-                    for (var i = 0; i < result.length; i++) {
-                        var temp = {};
-                        temp.title = result[i].title;
-                        temp.content = result[i].content;
-                        temp.date = result[i].ctime;
-                        temp.views = result[i].views;
-                        temp.tags = result[i].tags;
-                        temp.id = result[i].id;
-                        temp.link = "/blog_detail.html?bid=" + result[i].id;
-                        list.push(temp)
+                var urlSearchParams = location.search.indexOf('?') > -1 ? location.search.split('?')[1].split('&') : '';
+
+                var tagId = '';
+
+                for (var i = 0; i < urlSearchParams.length; i ++) {
+                    let urlParams = urlSearchParams[i].split('=');
+                    if (urlParams[0] === 'tagId') {
+                        try {
+                            tagId = urlParams[1]
+                        } catch (e) {
+                            console.log(e)
+                        }
                     }
-                    articleList.articleList = list;
-                    articleList.nowPage = page;
-                    articleList.generatePageTool;
-                    console.log(result)
-                }).catch(function (error) {
-                    console.log(error)
-                });
-                // 获取博客文章总数
-                axios({
-                    url: '/queryBlogCount',
-                    method: 'get'
-                }).then(function (res) {
-                    console.log('获取文章总数：', res.data.data);
-                    articleList.count = res.data.data[0].count;
-                    articleList.generatePageTool;
-                })
+                }
+
+                if (tagId === '') { // 不是查询情况
+                    // 获取article列表
+                    axios({
+                        url: '/queryBlogByPage?page=' + (page - 1) + '&pageSize=' + pageSize,
+                        method: 'get'
+                    }).then(function (res) {
+                        var result = res.data.data;
+                        var list = [];
+                        for (var i = 0; i < result.length; i++) {
+                            var temp = {};
+                            temp.title = result[i].title;
+                            temp.content = result[i].content;
+                            temp.date = result[i].ctime;
+                            temp.views = result[i].views;
+                            temp.tags = result[i].tags;
+                            temp.id = result[i].id;
+                            temp.link = "/blog_detail.html?bid=" + result[i].id;
+                            list.push(temp)
+                        }
+                        articleList.articleList = list;
+                        articleList.nowPage = page;
+                        articleList.generatePageTool;
+                    }).catch(function (error) {
+                        console.log(error)
+                    });
+                    // 获取博客文章总数
+                    axios({
+                        url: '/queryBlogCount',
+                        method: 'get'
+                    }).then(function (res) {
+                        articleList.count = res.data.data[0].count;
+                        articleList.generatePageTool;
+                    })
+                } else { // 通过tagId查询文章列表
+                    axios({
+                        url: '/queryBlogsByTagId?tagId=' + tagId + '&page=' + (page - 1) + '&pageSize=' + pageSize,
+                        method: 'get'
+                    }).then(function (res) {
+                        var result = res.data.data.blogList;
+                        var list = [];
+                        for (var i = 0; i < result.length; i++) {
+                            var temp = {};
+                            temp.title = result[i].title;
+                            temp.content = result[i].content;
+                            temp.date = result[i].ctime;
+                            temp.views = result[i].views;
+                            temp.tags = result[i].tags;
+                            temp.id = result[i].id;
+                            temp.link = "/blog_detail.html?bid=" + result[i].id;
+                            list.push(temp)
+                        }
+                        articleList.articleList = list;
+                        articleList.nowPage = page;
+                        articleList.count = res.data.data.count;
+                        articleList.generatePageTool;
+                        console.log(res)
+                    }).catch(function (error) {
+                        console.log(error)
+                    });
+                }
+
             }
         },
         generatePageTool() {
@@ -146,6 +188,5 @@ var articleList = new Vue({
     },
     created() {
         this.getPage(this.nowPage, this.pageSize);
-        console.log(this.generatePageTool)
     }
 });
