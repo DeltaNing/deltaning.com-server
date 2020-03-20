@@ -1,17 +1,18 @@
 var dbutil = require('./DBUtil');
 
-function insertComment(blogId, parent, name, email, comments, ctime, utime, success) {
+function insertComment(blogId, parent, parentName, name, email, comments, ctime, utime, success) {
     // 定义插入数据库语句
     var insertSql = 'insert into comments set ?';
     var params = {
         blog_id: blogId,
         parent,
+        parent_name: parentName,
         user_name: name,
         email,
         comments,
         ctime,
         utime
-    }
+    };
 
     // 链接数据库并执行插入操作
     var connection = dbutil.createConnection();
@@ -31,10 +32,10 @@ function insertComment(blogId, parent, name, email, comments, ctime, utime, succ
     connection.end();
 }
 
-function queryBlogByPage(page, pageSize, success) {
+function queryCommentsById(blogId, success) {
     // 定义插入数据库语句
-    var querySql = 'select * from blog order by id desc limit ?, ?';
-    var params = [page * pageSize, pageSize];
+    var querySql = 'select * from comments where blog_id = ?';
+    var params = [blogId];
 
     // 链接数据库并执行插入操作
     var connection = dbutil.createConnection();
@@ -101,6 +102,7 @@ function queryBlogById(bid, success) {
 }
 
 module.exports.insertComment = insertComment;
-module.exports.queryBlogByPage = queryBlogByPage;
+module.exports.queryCommentsById = queryCommentsById;
+
 module.exports.queryBlogCount = queryBlogCount;
 module.exports.queryBlogById = queryBlogById;

@@ -1,7 +1,7 @@
 var blogDetail = new Vue({
     el: '#blogDetail',
     data: {
-        title: '标题',
+        title: '',
         content: '',
         views: '',
         tags: '',
@@ -53,18 +53,18 @@ var sendComment = new Vue({
     },
     computed: {
         getImgCode() {
-          return function () {
-              axios({
-                  method: 'get',
-                  url: '/queryRandomImgCode'
-              }).then(function (res) {
-                  sendComment.imgCode = res.data.data.data;
-                  sendComment.codeText = res.data.data.text;
-                  console.log(res)
-              }).catch(function (error) {
-                  console.log(error)
-              })
-          }
+            return function () {
+                axios({
+                    method: 'get',
+                    url: '/queryRandomImgCode'
+                }).then(function (res) {
+                    sendComment.imgCode = res.data.data.data;
+                    sendComment.codeText = res.data.data.text;
+                    console.log(res)
+                }).catch(function (error) {
+                    console.log(error)
+                })
+            }
         },
         submitComment() {
             return function () {
@@ -76,7 +76,7 @@ var sendComment = new Vue({
 
                 var bid = -1;
 
-                for (var i = 0; i < urlSearchParams.length; i ++) {
+                for (var i = 0; i < urlSearchParams.length; i++) {
                     if (urlSearchParams[i].split('=')[0] === 'bid') {
                         try {
                             bid = urlSearchParams[i].split('=')[1]
@@ -87,6 +87,7 @@ var sendComment = new Vue({
                 }
 
                 var parent = document.sendCommentForm.parent.value;
+                var parentName = document.sendCommentForm.parentName.value;
                 var name = document.sendCommentForm.name.value;
                 var email = document.sendCommentForm.email.value;
                 var comments = document.sendCommentForm.comments.value;
@@ -108,7 +109,7 @@ var sendComment = new Vue({
 
                 axios({
                     method: 'get',
-                    url: `/addComment?bid=${bid}&parent=${parent}&name=${name}&email=${email}&comments=${comments}`
+                    url: `/addComment?bid=${bid}&parent=${parent}&parentName=${parentName}&name=${name}&email=${email}&comments=${comments}`
                 }).then(function (res) {
                     console.log(res)
                 }).catch(function (error) {
@@ -120,5 +121,56 @@ var sendComment = new Vue({
     },
     created() {
         this.getImgCode();
+    }
+});
+
+var blogComments = new Vue({
+    el: '#blogComments',
+    data: {
+        commentsList: [
+            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', parent_name: ''},
+            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', parent_name: ''},
+            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', parent_name: ''},
+            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', parent_name: ''},
+            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', parent_name: ''}
+        ]
+    },
+    computed: {
+        title: function () {
+            console.log(blogDetail.title)
+            return blogDetail.title
+        },
+        getComments() {
+            return function () {
+                var urlSearchParams = location.search.indexOf('?') > -1 ? location.search.split('?')[1].split('&') : '';
+
+                if (!urlSearchParams) {
+                    return;
+                }
+
+                var bid = -1;
+
+                for (var i = 0; i < urlSearchParams.length; i++) {
+                    if (urlSearchParams[i].split('=')[0] === 'bid') {
+                        try {
+                            bid = urlSearchParams[i].split('=')[1]
+                        } catch (e) {
+                            console.log(e)
+                        }
+                    }
+                }
+                axios({
+                    url: `/queryCommentsById?bid=${bid}`,
+                    method: 'get'
+                }).then(function (res) {
+                    console.log(res)
+                }).catch(function (error) {
+                    console.log(error)
+                })
+            }
+        }
+    },
+    created() {
+        this.getComments()
     }
 });

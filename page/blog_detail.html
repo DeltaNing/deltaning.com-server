@@ -37,27 +37,12 @@
             </div>
 
             <!--显示留言-->
-            <div class="blog-comments">
-                <P>关于：目前有68 条留言</P>
-                <div class="blog-comment-item">
-                    <span class="blog-comment-username">啦啦啦啦：</span>发表于<span>2020年2月1日</span>
+            <div class="blog-comments" id="blogComments">
+                <P>{{title}}：目前有68 条留言</P>
+                <div class="blog-comment-item" v-for="item in commentsList">
+                    <span class="blog-comment-username">{{item.user_name}}：{{item.parent_name}}</span>发表于{{item.ctime}}
                     [<a href="/" class="blog-comment-replay-btn">回复</a>]
-                    <p class="blog-comment-content">fgjhkjkl;jkyuyutfr67uikjhgtyu</p>
-                </div>
-                <div class="blog-comment-item">
-                    <span class="blog-comment-username">啦啦啦啦：</span>发表于<span>2020年2月1日</span>
-                    [<a href="/" class="blog-comment-replay-btn">回复</a>]
-                    <p class="blog-comment-content">fgjhkjkl;jkyuyutfr67uikjhgtyu</p>
-                </div>
-                <div class="blog-comment-item">
-                    <span class="blog-comment-username">啦啦啦啦：</span>发表于<span>2020年2月1日</span>
-                    [<a href="/" class="blog-comment-replay-btn">回复</a>]
-                    <p class="blog-comment-content">fgjhkjkl;jkyuyutfr67uikjhgtyu</p>
-                </div>
-                <div class="blog-comment-item">
-                    <span class="blog-comment-username">啦啦啦啦：</span>发表于<span>2020年2月1日</span>
-                    [<a href="/" class="blog-comment-replay-btn">回复</a>]
-                    <p class="blog-comment-content">fgjhkjkl;jkyuyutfr67uikjhgtyu</p>
+                    <p class="blog-comment-content">{{item.comments}}</p>
                 </div>
             </div>
 
@@ -66,6 +51,7 @@
                 <h3>发表评论</h3>
                 <form name="sendCommentForm">
                     <input type="hidden" name="parent" value="-1">
+                    <input type="hidden" name="parentName" value="0">
                     <div class="comment-form-group">
                         <input class="comment-name input" type="text" placeholder="昵称" name="name">
                         <input class="comment-email input" type="text" placeholder="邮箱（评论被回复时，你能收到通知）" name="email">

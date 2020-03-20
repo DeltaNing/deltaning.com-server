@@ -24,7 +24,7 @@ path.set('/queryRandomImgCode', queryRandomImgCode);
 function addComment(request, response) {
     var params = url.parse(request.url, true).query;
     // console.log(params);
-    commentDao.insertComment(parseInt(params.bid),parseInt(params.parent), params.name, params.email, params.comments, timeUtil.getNowDate(), timeUtil.getNowDate(), function (result) {
+    commentDao.insertComment(parseInt(params.bid),parseInt(params.parent), params.parentName, params.name, params.email, params.comments, timeUtil.getNowDate(), timeUtil.getNowDate(), function (result) {
         response.writeHead(200);
         response.write(respUtil.writeResult('success', '评论成功', null));
         response.end()
@@ -32,5 +32,17 @@ function addComment(request, response) {
 }
 
 path.set('/addComment', addComment);
+
+function queryCommentsById(request, response) {
+    var params = url.parse(request.url, true).query;
+    commentDao.queryCommentsById(parseInt(params.bid), function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult('success', '查询成功', result));
+        response.end()
+    })
+}
+
+path.set('/queryCommentsById', queryCommentsById);
+
 
 module.exports.path = path;
