@@ -38,10 +38,10 @@
 
             <!--显示留言-->
             <div class="blog-comments" id="blogComments">
-                <P>{{title}}：目前有68 条留言</P>
+                <P>{{title}}：目前有{{totalCount}}条留言</P>
                 <div class="blog-comment-item" v-for="item in commentsList">
-                    <span class="blog-comment-username">{{item.user_name}}：{{item.parent_name}}</span>发表于{{item.ctime}}
-                    [<a href="/" class="blog-comment-replay-btn" @click="replayComment()">回复</a>]
+                    <span class="blog-comment-username">{{item.user_name}}：{{item.options}}</span> 发表于{{item.ctime}}
+                    [<a class="blog-comment-replay-btn" @click="replayComment(item.id, item.user_name)">回复</a>]
                     <p class="blog-comment-content">{{item.comments}}</p>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                 <h3>发表评论</h3>
                 <form name="sendCommentForm">
                     <input type="hidden" name="parent" value="-1">
-                    <input type="hidden" name="parentName" value="0">
+                    <input type="hidden" name="parentName" value="">
                     <div class="comment-form-group">
                         <input class="comment-name input" type="text" placeholder="昵称" name="name">
                         <input class="comment-email input" type="text" placeholder="邮箱（评论被回复时，你能收到通知）" name="email">

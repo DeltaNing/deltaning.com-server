@@ -44,5 +44,15 @@ function queryCommentsById(request, response) {
 
 path.set('/queryCommentsById', queryCommentsById);
 
+function queryCommentsCountById(request, response) {
+    var params = url.parse(request.url, true).query;
+    commentDao.queryCommentsCountById(parseInt(params.bid), function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult('success', '查询成功', result));
+        response.end()
+    })
+}
+
+path.set('/queryCommentsCountById', queryCommentsCountById);
 
 module.exports.path = path;

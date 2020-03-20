@@ -336,7 +336,12 @@ body {
 .blog-comment-replay-btn {
     background: transparent;
     text-decoration: none;
-    color: #31708f;
+    color: #3170ff;
+    cursor: pointer;
+}
+
+.blog-comment-replay-btn:hover {
+    color: #000088;
 }
 
 .blog-comment-item > p {

@@ -49,7 +49,7 @@ var sendComment = new Vue({
         imgCode: '',
         codeText: '',
         tipText: '',
-        showTips: false
+        showTips: false,
     },
     computed: {
         getImgCode() {
@@ -128,12 +128,13 @@ var blogComments = new Vue({
     el: '#blogComments',
     data: {
         commentsList: [
-            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', parent_name: ''},
-            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', parent_name: ''},
-            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', parent_name: ''},
-            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', parent_name: ''},
-            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', parent_name: ''}
-        ]
+            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', options: '回复@'},
+            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', options: '回复@'},
+            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', options: '回复@'},
+            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', options: '回复@'},
+            {id: 1, user_name: 'Delta', ctime: '123456765432',comments: 'djasjflkdjlk', options: '回复@'}
+        ],
+        totalCount: '', // 总评论数
     },
     computed: {
         title: function () {
@@ -163,14 +164,34 @@ var blogComments = new Vue({
                     method: 'get'
                 }).then(function (res) {
                     blogComments.commentsList = res.data.data;
+                    for (let i = 0; i < blogComments.commentsList.length ; i ++) {
+                        if (blogComments.commentsList[i].parent > -1) {
+                            blogComments.commentsList[i].options = "回复@" + blogComments.commentsList[i].parent_name;
+                        }
+                    }
                     console.log(res)
+                }).catch(function (error) {
+                    console.log(error)
+                });
+
+                // 获取总评论数
+                axios({
+                    url: `/queryCommentsCountById?bid=${bid}`,
+                    method: 'get'
+                }).then(function (res) {
+                    blogComments.totalCount = res.data.data[0].count;
+                    console.log('11111111111',res)
                 }).catch(function (error) {
                     console.log(error)
                 })
             }
         },
         replayComment() {
-            return function () {
+            return function (commentId, parent_name) {
+                document.sendCommentForm.parent.value = commentId;
+                document.sendCommentForm.parentName.value = parent_name;
+                // 跳转到提交评论区域
+                location.href = '#sendComment';
 
             }
         }

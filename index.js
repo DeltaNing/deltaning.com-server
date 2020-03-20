@@ -31,6 +31,8 @@ app.get('/queryRandomImgCode', loader.get('/queryRandomImgCode'));
 
 // 通过文章id获取文章的所有评论/留言
 app.get('/queryCommentsById', loader.get('/queryCommentsById'));
+// 通过文章id获取文章的评论总数
+app.get('/queryCommentsCountById', loader.get('/queryCommentsCountById'));
 
 app.listen(globalConfig.port, function () {
    console.log("服务器已启动")

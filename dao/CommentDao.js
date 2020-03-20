@@ -48,17 +48,17 @@ function queryCommentsById(blogId, success) {
             success(result)
         } else {
             // 若有错误，将错误打印到服务器控制台
-            console.log('BlogDao Error: ', error)
+            console.log('CommentDao Error: ', error)
         }
     });
     // 3、 断开数据库连接
     connection.end();
 }
 
-function queryBlogCount(success) {
+function queryCommentsCountById(blogId, success) {
     // 定义插入数据库语句
-    var querySql = 'select count(1) as count from blog';
-    var params = [];
+    var querySql = 'select count(1) as count from comments where blog_id = ?';
+    var params = [blogId];
 
     // 链接数据库并执行插入操作
     var connection = dbutil.createConnection();
@@ -71,30 +71,7 @@ function queryBlogCount(success) {
             success(result)
         } else {
             // 若有错误，将错误打印到服务器控制台
-            console.log('BlogDao Error: ', error)
-        }
-    });
-    // 3、 断开数据库连接
-    connection.end();
-}
-
-function queryBlogById(bid, success) {
-    // 定义插入数据库语句
-    var querySql = 'select * from blog where id=?';
-    var params = [bid];
-
-    // 链接数据库并执行插入操作
-    var connection = dbutil.createConnection();
-    // 1、连接数据库
-    connection.connect();
-    // 2、执行插入操作
-    connection.query(querySql, params, function (error, result) {
-        // 如果没有错误就返回结果
-        if (error == null) {
-            success(result)
-        } else {
-            // 若有错误，将错误打印到服务器控制台
-            console.log('BlogDao Error: ', error)
+            console.log('CommentDao Error: ', error)
         }
     });
     // 3、 断开数据库连接
@@ -103,6 +80,5 @@ function queryBlogById(bid, success) {
 
 module.exports.insertComment = insertComment;
 module.exports.queryCommentsById = queryCommentsById;
+module.exports.queryCommentsCountById = queryCommentsCountById;
 
-module.exports.queryBlogCount = queryBlogCount;
-module.exports.queryBlogById = queryBlogById;
