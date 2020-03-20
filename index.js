@@ -51,6 +51,7 @@ app.get('/queryRandomTags', loader.get('/queryRandomTags'));
 
 // 根据标签id查询所有blog的id
 app.get('/queryBlogsByTagId', loader.get('/queryBlogsByTagId'));
+app.get('/queryBlogCountByTagId', loader.get('/queryBlogCountByTagId'));
 
 app.listen(globalConfig.port, function () {
    console.log("服务器已启动")

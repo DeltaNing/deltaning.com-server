@@ -117,7 +117,7 @@ var articleList = new Vue({
                         url: '/queryBlogsByTagId?tagId=' + tagId + '&page=' + (page - 1) + '&pageSize=' + pageSize,
                         method: 'get'
                     }).then(function (res) {
-                        var result = res.data.data.blogList;
+                        var result = res.data.data;
                         var list = [];
                         for (var i = 0; i < result.length; i++) {
                             var temp = {};
@@ -132,12 +132,20 @@ var articleList = new Vue({
                         }
                         articleList.articleList = list;
                         articleList.nowPage = page;
-                        articleList.count = res.data.data.count;
                         articleList.generatePageTool;
-                        console.log(res)
                     }).catch(function (error) {
                         console.log(error)
                     });
+                    // 获取博客文章总数
+                    axios({
+                        url: '/queryBlogCountByTagId?tagId=' + tagId,
+                        method: 'get'
+                    }).then(function (res) {
+                        articleList.count = res.data.data[0].count;
+                        articleList.generatePageTool;
+                    }).catch(function (error) {
+                        console.log(error)
+                    })
                 }
 
             }
