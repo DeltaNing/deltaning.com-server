@@ -33,7 +33,7 @@ function addComment(request, response) {
 
 path.set('/addComment', addComment);
 
-function queryCommentsById(request, response) {
+function queryCommentsByBlogId(request, response) {
     var params = url.parse(request.url, true).query;
     commentDao.queryCommentsById(parseInt(params.bid), function (result) {
         response.writeHead(200);
@@ -42,7 +42,7 @@ function queryCommentsById(request, response) {
     })
 }
 
-path.set('/queryCommentsById', queryCommentsById);
+path.set('/queryCommentsByBlogId', queryCommentsByBlogId);
 
 function queryCommentsCountById(request, response) {
     var params = url.parse(request.url, true).query;

@@ -14,7 +14,7 @@ var blogDetail = new Vue({
             return;
         }
 
-        var bid = -1;
+        var bid = -10;
 
         for (var i = 0; i < searchUrlParams.length; i++) {
             if (searchUrlParams[i].split('=')[0] == 'bid') {
@@ -36,7 +36,6 @@ var blogDetail = new Vue({
             blogDetail.tags = result.tags;
             blogDetail.views = result.views;
             blogDetail.ctime = result.ctime;
-            console.log(res)
         }).catch(function (error) {
             console.log(error)
         })
@@ -60,7 +59,6 @@ var sendComment = new Vue({
                 }).then(function (res) {
                     sendComment.imgCode = res.data.data.data;
                     sendComment.codeText = res.data.data.text;
-                    console.log(res)
                 }).catch(function (error) {
                     console.log(error)
                 })
@@ -74,7 +72,7 @@ var sendComment = new Vue({
                     return;
                 }
 
-                var bid = -1;
+                var bid = -10;
 
                 for (var i = 0; i < urlSearchParams.length; i++) {
                     if (urlSearchParams[i].split('=')[0] === 'bid') {
@@ -148,7 +146,7 @@ var blogComments = new Vue({
                     return;
                 }
 
-                var bid = -1;
+                var bid = -10;
 
                 for (var i = 0; i < urlSearchParams.length; i++) {
                     if (urlSearchParams[i].split('=')[0] === 'bid') {
@@ -160,7 +158,7 @@ var blogComments = new Vue({
                     }
                 }
                 axios({
-                    url: `/queryCommentsById?bid=${bid}`,
+                    url: `/queryCommentsByBlogId?bid=${bid}`,
                     method: 'get'
                 }).then(function (res) {
                     blogComments.commentsList = res.data.data;
@@ -169,7 +167,6 @@ var blogComments = new Vue({
                             blogComments.commentsList[i].options = "回复@" + blogComments.commentsList[i].parent_name;
                         }
                     }
-                    console.log(res)
                 }).catch(function (error) {
                     console.log(error)
                 });
@@ -180,7 +177,6 @@ var blogComments = new Vue({
                     method: 'get'
                 }).then(function (res) {
                     blogComments.totalCount = res.data.data[0].count;
-                    console.log('11111111111',res)
                 }).catch(function (error) {
                     console.log(error)
                 })

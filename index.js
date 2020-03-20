@@ -30,7 +30,7 @@ app.get('/addComment', loader.get('/addComment'));
 app.get('/queryRandomImgCode', loader.get('/queryRandomImgCode'));
 
 // 通过文章id获取文章的所有评论/留言
-app.get('/queryCommentsById', loader.get('/queryCommentsById'));
+app.get('/queryCommentsByBlogId', loader.get('/queryCommentsByBlogId'));
 // 通过文章id获取文章的评论总数
 app.get('/queryCommentsCountById', loader.get('/queryCommentsCountById'));
 
