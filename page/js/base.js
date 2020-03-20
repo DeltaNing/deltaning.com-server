@@ -7,7 +7,16 @@ let randomTags = new Vue({
    },
     computed: {
         getTags() {
-            return this.tags
+            return function () {
+                axios({
+                    url: '/queryRandomTags',
+                    method: 'get'
+                }).then(function (res) {
+                    console.log(res)
+                }).catch(function (error) {
+                    console.log(error)
+                })
+            }
         },
         tagColor() {
             return function () {
