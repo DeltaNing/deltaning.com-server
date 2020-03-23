@@ -178,6 +178,7 @@ var blogComments = new Vue({
                             blogComments.commentsList[i].options = "回复@" + blogComments.commentsList[i].parent_name;
                         }
                     }
+                    console.log(blogComments.commentsList)
                 }).catch(function (error) {
                     console.log(error)
                 });

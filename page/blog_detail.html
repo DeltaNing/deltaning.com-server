@@ -39,7 +39,7 @@
             <!--显示留言-->
             <div class="blog-comments" id="blogComments">
                 <P>{{title}}：目前有{{totalCount}}条留言</P>
-                <div class="blog-comment-item" v-for="item in commentsList">
+                <div class="blog-comment-item" v-for="item in commentsList" :id="'comment-' + item.id">
                     <span class="blog-comment-username">{{item.user_name}}：{{item.options}}</span> 发表于{{item.ctime}}
                     [<a class="blog-comment-replay-btn" @click="replayComment(item.id, item.user_name)">回复</a>]
                     <p class="blog-comment-content">{{item.comments}}</p>
@@ -94,7 +94,7 @@
             <!--最新评论-->
             <dl id="newComments" class="right-module">
                 <dt class="right-module-title">最新评论</dt>
-                <dd class="right-comment-list-item" v-for="item in getNewCommentsList">
+                <dd class="right-comment-list-item" v-for="item in commentList">
                     <p class="comment-name">{{item.guestName}}</p>
                     <a :href="item.link">{{item.title}}</a>
                     <span class="pull-right">[{{item.date}}]</span>

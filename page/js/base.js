@@ -44,16 +44,7 @@ let newHot = new Vue({
    el: '#newHot',
    data: {
         hotList: [
-            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
-            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
-            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
-            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
-            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
-            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
-            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
-            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
-            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
-            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
+            {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'}
         ]
    },
     computed: {
@@ -84,7 +75,7 @@ let newHot = new Vue({
 let newComments = new Vue({
    el: '#newComments',
    data: {
-       list: [
+       commentList: [
            {
                guestName: '入驻邀请',
                title: '使用码云git的webhook实现生产环境代',
@@ -112,5 +103,15 @@ let newComments = new Vue({
        getNewCommentsList: function () {
            return this.list
        }
+    },
+    created: function () {
+        axios({
+            method: 'get',
+            url: '/queryNewComments'
+        }).then(function (res) {
+            console.log(res)
+        }).catch(function (error) {
+            console.log(error)
+        })
     }
 });
