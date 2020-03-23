@@ -65,7 +65,7 @@ let newHot = new Vue({
                 list.push(temp)
             }
             newHot.hotList = list;
-            console.log(res)
+            // console.log(res)
         }).catch(function (error) {
             console.log(error)
         })
@@ -77,39 +77,40 @@ let newComments = new Vue({
    data: {
        commentList: [
            {
-               guestName: '入驻邀请',
-               title: '使用码云git的webhook实现生产环境代',
-               date: '1周前',
-               link: 'https:www.deltaning.com'
+               user_name: '入驻邀请',
+               comments: '使用码云git的webhook实现生产环境代',
+               ctime: '1周前',
+               link: '/blog_detail.html?bid=blogId#commentId'
            },{
-               guestName: '入驻邀请',
-               title: '使用码云git的webhook实现生产环境代',
-               date: '1周前',
-               link: 'https:www.deltaning.com'
+               user_name: '入驻邀请',
+               comments: '使用码云git的webhook实现生产环境代',
+               ctime: '1周前',
+               link: '/blog_detail.html?bid=blogId#commentId'
            },{
-               guestName: '入驻邀请',
-               title: '使用码云git的webhook实现生产环境代',
-               date: '1周前',
-               link: 'https:www.deltaning.com'
+               user_name: '入驻邀请',
+               comments: '使用码云git的webhook实现生产环境代',
+               ctime: '1周前',
+               link: '/blog_detail.html?bid=blogId#commentId'
            },{
-               guestName: '入驻邀请',
-               title: '使用码云git的webhook实现生产环境代',
-               date: '1周前',
-               link: 'https:www.deltaning.com'
-           }
+               user_name: '入驻邀请',
+               comments: '使用码云git的webhook实现生产环境代',
+               ctime: '1周前',
+               link: '/blog_detail.html?bid=blogId#commentId'
+           },
        ]
    },
-    computed: {
-       getNewCommentsList: function () {
-           return this.list
-       }
-    },
+    computed: {},
     created: function () {
         axios({
             method: 'get',
             url: '/queryNewComments'
         }).then(function (res) {
-            console.log(res)
+            var result = res.data.data;
+            for (var i = 0; i < result.length; i ++) {
+                result[i].link = '/blog_detail.html?bid=' + result[i].blog_id + '#comment-' + result[i].id
+            }
+            newComments.commentList = result;
+            // console.log(newComments.commentList)
         }).catch(function (error) {
             console.log(error)
         })

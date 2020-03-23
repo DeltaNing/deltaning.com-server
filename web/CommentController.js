@@ -6,6 +6,16 @@ var respUtil = require('../util/WriteUtil');
 var svgCaptcha = require('svg-captcha');
 var url = require('url');
 
+function queryNewComments(request, response) {
+    commentDao.queryNewComments(function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult('success', '查询成功', result));
+        response.end()
+    })
+}
+
+path.set('/queryNewComments', queryNewComments);
+
 function queryRandomImgCode(request, response) {
     var img = svgCaptcha.create({
         fontSize: 50,

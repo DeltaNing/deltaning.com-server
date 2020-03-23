@@ -46,7 +46,7 @@ var blogDetail = new Vue({
             method: "get",
             url: "/updateBlogViews?bid=" + bid
         }).then(function (res) {
-            console.log(res)
+            // console.log(res)
         }).catch(function (error) {
             console.log(error)
         })
@@ -178,7 +178,7 @@ var blogComments = new Vue({
                             blogComments.commentsList[i].options = "回复@" + blogComments.commentsList[i].parent_name;
                         }
                     }
-                    console.log(blogComments.commentsList)
+                    // console.log(blogComments.commentsList)
                 }).catch(function (error) {
                     console.log(error)
                 });

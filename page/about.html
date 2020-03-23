@@ -97,9 +97,9 @@
             <dl id="newComments" class="right-module">
                 <dt class="right-module-title">最新评论</dt>
                 <dd class="right-comment-list-item" v-for="item in commentList">
-                    <p class="comment-name">{{item.guestName}}</p>
-                    <a :href="item.link">{{item.title}}</a>
-                    <span class="pull-right">[{{item.date}}]</span>
+                    <p class="comment-name">{{item.user_name}}</p>
+                    <a :href="item.link">{{item.comments}}</a>
+                    <span class="pull-right">[{{item.ctime}}]</span>
                 </dd>
             </dl>
             <!--友情链接-->
