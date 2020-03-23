@@ -190,6 +190,29 @@ function updateBlogViews(blogId, success) {
     connection.end();
 }
 
+function queryHotBlogs(success) {
+    // 定义插入数据库语句
+    var querySql = 'select * from blog order by views desc limit 10';
+    var params = [];
+
+    // 链接数据库并执行插入操作
+    var connection = dbutil.createConnection();
+    // 1、连接数据库
+    connection.connect();
+    // 2、执行插入操作
+    connection.query(querySql, params, function (error, result) {
+        // 如果没有错误就返回结果
+        if (error == null) {
+            success(result)
+        } else {
+            // 若有错误，将错误打印到服务器控制台
+            console.log('BlogDao Error: ', error)
+        }
+    });
+    // 3、 断开数据库连接
+    connection.end();
+}
+
 module.exports.insertBlog = insertBlog;
 module.exports.queryBlogByPage = queryBlogByPage;
 module.exports.queryBlogCount = queryBlogCount;
@@ -198,3 +221,4 @@ module.exports.queryAllBlog = queryAllBlog;
 module.exports.queryBlogByIds = queryBlogByIds;
 module.exports.queryBlogCountByIds = queryBlogCountByIds;
 module.exports.updateBlogViews = updateBlogViews;
+module.exports.queryHotBlogs = queryHotBlogs;

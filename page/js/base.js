@@ -43,7 +43,7 @@ let randomTags = new Vue({
 let newHot = new Vue({
    el: '#newHot',
    data: {
-        list: [
+        hotList: [
             {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
             {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
             {title: '使用码云git的webhook实现生产环境代', link: 'https:www.deltaning.com'},
@@ -57,12 +57,27 @@ let newHot = new Vue({
         ]
    },
     computed: {
-        getNewHotList() {
-            return this.list
-        }
+
     },
     created() {
         // todo: 获取article列表
+        axios({
+            method: 'get',
+            url: '/queryHotBlogs'
+        }).then(function (res) {
+            var result = res.data.data;
+            var list = [];
+            for (var i = 0; i < result.length; i ++) {
+                var temp = {};
+                temp.title = result[i].title;
+                temp.link = 'blog_detail.html?bid=' + result[i].id;
+                list.push(temp)
+            }
+            newHot.hotList = list;
+            console.log(res)
+        }).catch(function (error) {
+            console.log(error)
+        })
     }
 });
 

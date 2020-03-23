@@ -81,13 +81,14 @@
                 <div class="right-list">
                     <a v-for="tag in tagList"
                        :href="tag.link"
-                       :style="{color: tagColor(), fontSize: tagSize()}">{{tag.tag}}</a>                </div>
+                       :style="{color: tagColor(), fontSize: tagSize()}">{{tag.tag}}</a>
+                </div>
             </div>
             <!--最近热门-->
             <dl id="newHot" class="right-module">
                 <dt class="right-module-title">最近热门</dt>
-                <dd v-for="item in getNewHotList">
-                    <a target="_blank" :href="item.link">{{item.title}}</a>
+                <dd v-for="item in hotList">
+                    <a :href="item.link">{{item.title}}</a>
                 </dd>
             </dl>
             <!--最新评论-->

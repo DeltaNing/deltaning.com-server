@@ -9,125 +9,126 @@
     <script src="./js/axios.js"></script>
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <a class="title" href="/">Delta个人博客 | 技术博客</a>
-            <ul class="menu">
-                <li><a href="/">首页</a></li>
-                <li><a href="./siteMap.html">地图</a></li>
-                <li><a href="./about.html">关于</a></li>
-                <li><a href="./guestbook.html">留言</a></li>
-            </ul>
-            <div class="search-bar">
-                <input placeholder="输入关键词查找">
-                <button>搜索</button>
+<header class="header">
+    <div class="container">
+        <a class="title" href="/">Delta个人博客 | 技术博客</a>
+        <ul class="menu">
+            <li><a href="/">首页</a></li>
+            <li><a href="./siteMap.html">地图</a></li>
+            <li><a href="./about.html">关于</a></li>
+            <li><a href="./guestbook.html">留言</a></li>
+        </ul>
+        <div class="search-bar">
+            <input placeholder="输入关键词查找">
+            <button>搜索</button>
+        </div>
+    </div>
+</header>
+<main class="content">
+    <div class="content-left">
+        <div class="description">
+            <p>欢迎灌水交流，别看我长时间不发博，博主可一直都在线~</p>
+            <p class="red">友链只交换技术类个人博客，本博客稳定在线，所以也需要你的站尽量稳定。</p>
+            <p class="red">不要皮，谢谢。</p>
+        </div>
+
+        <!--显示留言-->
+        <div class="blog-comments" id="guestbookComments">
+            <P>留言：目前有{{totalCount}}条留言</P>
+            <div class="blog-comment-item" v-for="item in commentsList">
+                <span class="blog-comment-username">{{item.user_name}}：{{item.options}}</span> 发表于{{item.ctime}}
+                [<a class="blog-comment-replay-btn" @click="replayComment(item.id, item.user_name)">回复</a>]
+                <p class="blog-comment-content">{{item.comments}}</p>
             </div>
         </div>
-    </header>
-    <main class="content">
-        <div class="content-left">
-            <div class="description">
-                <p>欢迎灌水交流，别看我长时间不发博，博主可一直都在线~</p>
-                <p class="red">友链只交换技术类个人博客，本博客稳定在线，所以也需要你的站尽量稳定。</p>
-                <p class="red">不要皮，谢谢。</p>
-            </div>
 
-            <!--显示留言-->
-            <div class="blog-comments" id="guestbookComments">
-                <P>留言：目前有{{totalCount}}条留言</P>
-                <div class="blog-comment-item" v-for="item in commentsList">
-                    <span class="blog-comment-username">{{item.user_name}}：{{item.options}}</span> 发表于{{item.ctime}}
-                    [<a class="blog-comment-replay-btn" @click="replayComment(item.id, item.user_name)">回复</a>]
-                    <p class="blog-comment-content">{{item.comments}}</p>
+        <!--提交留言部分-->
+        <div class="send-comment" id="sendComment">
+            <h3>发表评论</h3>
+            <form name="sendCommentForm">
+                <input type="hidden" name="parent" value="-1">
+                <input type="hidden" name="parentName" value="0">
+                <div class="comment-form-group">
+                    <input class="comment-name input" type="text" placeholder="昵称" name="name">
+                    <input class="comment-email input" type="text" placeholder="邮箱（评论被回复时，你能收到通知）" name="email">
                 </div>
-            </div>
-
-            <!--提交留言部分-->
-            <div class="send-comment" id="sendComment">
-                <h3>发表评论</h3>
-                <form name="sendCommentForm">
-                    <input type="hidden" name="parent" value="-1">
-                    <input type="hidden" name="parentName" value="0">
-                    <div class="comment-form-group">
-                        <input class="comment-name input" type="text" placeholder="昵称" name="name">
-                        <input class="comment-email input" type="text" placeholder="邮箱（评论被回复时，你能收到通知）" name="email">
-                    </div>
-                    <div class="comment-form-group">
-                        <textarea class="comment-content input" name="comments" placeholder="无意义内容我可能不会回复你"></textarea>
-                    </div>
-                    <div class="comment-form-group">
-                        <input class="comment-code input" name="code" placeholder="验证码">
-                        <span class="img-code" @click="getImgCode()" v-html="imgCode"></span>
-                    </div>
-                    <div class="comment-form-group">
-                        <input class="comment-submit-btn btn input"
-                               @click="submitComment()"
-                               type="button" value="提交留言">
-                        <input class="comment-rewrite-btn btn input" type="button" value="重写">
-                        <span :class="{tips: true, 'show-tips': showTips}">{{tipText}}</span>
-                    </div>
-                </form>
+                <div class="comment-form-group">
+                    <textarea class="comment-content input" name="comments" placeholder="无意义内容我可能不会回复你"></textarea>
+                </div>
+                <div class="comment-form-group">
+                    <input class="comment-code input" name="code" placeholder="验证码">
+                    <span class="img-code" @click="getImgCode()" v-html="imgCode"></span>
+                </div>
+                <div class="comment-form-group">
+                    <input class="comment-submit-btn btn input"
+                           @click="submitComment()"
+                           type="button" value="提交留言">
+                    <input class="comment-rewrite-btn btn input" type="button" value="重写">
+                    <span :class="{tips: true, 'show-tips': showTips}">{{tipText}}</span>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="content-right">
+        <!--随机云标签-->
+        <div id="randomTags" class="right-module">
+            <div class="right-module-title">随机标签云</div>
+            <div class="right-list">
+                <a v-for="tag in tagList"
+                   :href="tag.link"
+                   :style="{color: tagColor(), fontSize: tagSize()}">{{tag.tag}}</a>
             </div>
         </div>
-        <div class="content-right">
-            <!--随机云标签-->
-            <div id="randomTags" class="right-module">
-                <div class="right-module-title">随机标签云</div>
-                <div class="right-list">
-                    <a v-for="tag in tagList"
-                       :href="tag.link"
-                       :style="{color: tagColor(), fontSize: tagSize()}">{{tag.tag}}</a>                </div>
-            </div>
-            <!--最近热门-->
-            <dl id="newHot" class="right-module">
-                <dt class="right-module-title">最近热门</dt>
-                <dd v-for="item in getNewHotList">
-                    <a target="_blank" :href="item.link">{{item.title}}</a>
-                </dd>
-            </dl>
-            <!--最新评论-->
-            <dl id="newComments" class="right-module">
-                <dt class="right-module-title">最新评论</dt>
-                <dd class="right-comment-list-item" v-for="item in getNewCommentsList">
-                    <p class="comment-name">{{item.guestName}}</p>
-                    <a :href="item.link">{{item.title}}</a>
-                    <span class="pull-right">[{{item.date}}]</span>
-                </dd>
-            </dl>
-            <!--友情链接-->
-            <dl class="right-module divide50">
-                <dt class="right-module-title">友情链接</dt>
-                <dd>
-                    <a href="/">挨踢茶馆</a>
-                </dd>
-                <dd>
-                    <a href="/">挨踢茶馆</a>
-                </dd>
-                <dd>
-                    <a href="/">挨踢茶馆</a>
-                </dd>
-                <dd>
-                    <a href="/">挨踢茶馆</a>
-                </dd>
-                <dd>
-                    <a href="/">挨踢茶馆</a>
-                </dd>
-                <dd>
-                    <a href="/">挨踢茶馆</a>
-                </dd>
-            </dl>
-        </div>
-    </main>
-    <footer class="footer">
-        <p>
-            <a>C/C++ CSS/DIV java javacript Linux Mac PC技术 PHP Python</a>
-        </p>
-        <p>
-            <a target="_blank" href="http://www.beian.miit.gov.cn/">豫ICP备19034739号</a>
-        </p>
-    </footer>
+        <!--最近热门-->
+        <dl id="newHot" class="right-module">
+            <dt class="right-module-title">最近热门</dt>
+            <dd v-for="item in hotList">
+                <a :href="item.link">{{item.title}}</a>
+            </dd>
+        </dl>
+        <!--最新评论-->
+        <dl id="newComments" class="right-module">
+            <dt class="right-module-title">最新评论</dt>
+            <dd class="right-comment-list-item" v-for="item in getNewCommentsList">
+                <p class="comment-name">{{item.guestName}}</p>
+                <a :href="item.link">{{item.title}}</a>
+                <span class="pull-right">[{{item.date}}]</span>
+            </dd>
+        </dl>
+        <!--友情链接-->
+        <dl class="right-module divide50">
+            <dt class="right-module-title">友情链接</dt>
+            <dd>
+                <a href="/">挨踢茶馆</a>
+            </dd>
+            <dd>
+                <a href="/">挨踢茶馆</a>
+            </dd>
+            <dd>
+                <a href="/">挨踢茶馆</a>
+            </dd>
+            <dd>
+                <a href="/">挨踢茶馆</a>
+            </dd>
+            <dd>
+                <a href="/">挨踢茶馆</a>
+            </dd>
+            <dd>
+                <a href="/">挨踢茶馆</a>
+            </dd>
+        </dl>
+    </div>
+</main>
+<footer class="footer">
+    <p>
+        <a>C/C++ CSS/DIV java javacript Linux Mac PC技术 PHP Python</a>
+    </p>
+    <p>
+        <a target="_blank" href="http://www.beian.miit.gov.cn/">豫ICP备19034739号</a>
+    </p>
+</footer>
 
-    <script src="./js/guestbook.js"></script>
-    <script src="./js/base.js"></script>
+<script src="./js/guestbook.js"></script>
+<script src="./js/base.js"></script>
 </body>
 </html>

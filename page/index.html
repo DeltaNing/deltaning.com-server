@@ -69,8 +69,8 @@
             <!--最近热门-->
             <dl id="newHot" class="right-module">
                 <dt class="right-module-title">最近热门</dt>
-                <dd v-for="item in getNewHotList">
-                    <a target="_blank" :href="item.link">{{item.title}}</a>
+                <dd v-for="item in hotList">
+                    <a :href="item.link">{{item.title}}</a>
                 </dd>
             </dl>
             <!--最新评论-->

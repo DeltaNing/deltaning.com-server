@@ -6,6 +6,16 @@ var timeUtil = require('../util/TimeUtil');
 var respUtil = require('../util/WriteUtil');
 var url = require('url');
 
+function queryHotBlogs(request, response) {
+    blogDao.queryHotBlogs(function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult('success', '更新成功', result));
+        response.end()
+    })
+}
+
+path.set('/queryHotBlogs', queryHotBlogs);
+
 function updateBlogViews(request, response) {
     var params = url.parse(request.url, true).query;
     blogDao.updateBlogViews(parseInt(params.bid), function (result) {
