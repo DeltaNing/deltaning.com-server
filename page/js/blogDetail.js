@@ -26,6 +26,7 @@ var blogDetail = new Vue({
             }
         }
 
+        // 获取文章详情
         axios({
             method: "get",
             url: "/queryBlogById?bid=" + bid
@@ -36,6 +37,16 @@ var blogDetail = new Vue({
             blogDetail.tags = result.tags;
             blogDetail.views = result.views;
             blogDetail.ctime = result.ctime;
+        }).catch(function (error) {
+            console.log(error)
+        })
+
+        // 更新文章浏览次数
+        axios({
+            method: "get",
+            url: "/updateBlogViews?bid=" + bid
+        }).then(function (res) {
+            console.log(res)
         }).catch(function (error) {
             console.log(error)
         })

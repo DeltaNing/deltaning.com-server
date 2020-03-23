@@ -53,6 +53,9 @@ app.get('/queryRandomTags', loader.get('/queryRandomTags'));
 app.get('/queryBlogsByTagId', loader.get('/queryBlogsByTagId'));
 app.get('/queryBlogCountByTagId', loader.get('/queryBlogCountByTagId'));
 
+
+app.get('/updateBlogViews', loader.get('/updateBlogViews'));
+
 app.listen(globalConfig.port, function () {
    console.log("服务器已启动")
 }); // 监听12306端口

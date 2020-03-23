@@ -6,6 +6,17 @@ var timeUtil = require('../util/TimeUtil');
 var respUtil = require('../util/WriteUtil');
 var url = require('url');
 
+function updateBlogViews(request, response) {
+    var params = url.parse(request.url, true).query;
+    blogDao.updateBlogViews(parseInt(params.bid), function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult('success', '更新成功', null));
+        response.end()
+    })
+}
+
+path.set('/updateBlogViews', updateBlogViews);
+
 function queryAllBlog(request, response) {
     blogDao.queryAllBlog(function (result) {
         response.writeHead(200);
@@ -55,6 +66,7 @@ function queryBlogByPage(request, response) {
 }
 
 path.set('/queryBlogByPage', queryBlogByPage);
+
 function editBlog(req, res) {
     // 获取url中的参数
     var params = url.parse(req.url, true).query;
