@@ -6,6 +6,35 @@ var timeUtil = require('../util/TimeUtil');
 var respUtil = require('../util/WriteUtil');
 var url = require('url');
 
+
+function queryBlogCountBySearch(request, response) {
+    let params = url.parse(request.url, true).query;
+    blogDao.queryBlogCountBySearch(params.search, function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult('success', '更新成功', result));
+        response.end()
+    })
+}
+
+path.set('/queryBlogCountBySearch', queryBlogCountBySearch);
+
+function queryBlogBySearch(request, response) {
+    let params = url.parse(request.url, true).query;
+    blogDao.queryBlogBySearch(params.search, parseInt(params.page), parseInt(params.pageSize), function (result) {
+        for (var i = 0; i < result.length; i ++) {
+            result[i].content = result[i].content.replace(/<img[\w\W]*">/, ''); // 去除img标签
+            result[i].content = result[i].content.replace(/<[^>]+>/g, ''); // 去除其他标签
+            result[i].content = result[i].content.replace(/&nbsp;/g, ''); // 去除空行
+            result[i].content = result[i].content.substring(0, 200) + '...';
+        }
+        response.writeHead(200);
+        response.write(respUtil.writeResult('success', '更新成功', result));
+        response.end()
+    })
+}
+
+path.set('/queryBlogBySearch', queryBlogBySearch);
+
 function queryHotBlogs(request, response) {
     blogDao.queryHotBlogs(function (result) {
         response.writeHead(200);
@@ -67,7 +96,7 @@ function queryBlogByPage(request, response) {
             result[i].content = result[i].content.replace(/<img[\w\W]*">/, ''); // 去除img标签
             result[i].content = result[i].content.replace(/<[^>]+>/g, ''); // 去除其他标签
             result[i].content = result[i].content.replace(/&nbsp;/g, ''); // 去除空行
-            result[i].content = result[i].content.substring(0, 300) + '...';
+            result[i].content = result[i].content.substring(0, 200) + '...';
         }
         response.writeHead(200);
         response.write(respUtil.writeResult("success", "查询成功", result));

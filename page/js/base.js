@@ -51,7 +51,7 @@ let newHot = new Vue({
 
     },
     created() {
-        // todo: 获取article列表
+        // 获取article列表
         axios({
             method: 'get',
             url: '/queryHotBlogs'
@@ -114,5 +114,19 @@ let newComments = new Vue({
         }).catch(function (error) {
             console.log(error)
         })
+    }
+});
+
+let search = new Vue({
+    el: '#searchBar',
+    data: {},
+    computed: {},
+    created() {},
+    methods: {
+        searchBlog() {
+            let searchText = document.getElementById('searchText').value;
+            location.href = '/?search=' + searchText;
+            console.log(searchText)
+        }
     }
 });

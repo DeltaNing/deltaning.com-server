@@ -27,7 +27,7 @@ function queryBlogsByTagId(request, response) {
                 result[i].content = result[i].content.replace(/<img[\w\W]*">/, ''); // 去除img标签
                 result[i].content = result[i].content.replace(/<[^>]+>/g, ''); // 去除其他标签
                 result[i].content = result[i].content.replace(/&nbsp;/g, ''); // 去除空行
-                result[i].content = result[i].content.substring(0, 300) + '...';
+                result[i].content = result[i].content.substring(0, 200) + '...';
             }
             response.writeHead(200);
             response.write(respUtil.writeResult('success', '查询成功', result));

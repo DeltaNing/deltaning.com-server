@@ -19,9 +19,9 @@
                 <li><a href="./about.html">关于</a></li>
                 <li><a href="./guestbook.html">留言</a></li>
             </ul>
-            <div class="search-bar">
-                <input placeholder="输入关键词查找">
-                <button>搜索</button>
+            <div class="search-bar" id="searchBar">
+                <input id="searchText" placeholder="输入关键词查找">
+                <button @click="searchBlog()">搜索</button>
             </div>
         </div>
     </header>

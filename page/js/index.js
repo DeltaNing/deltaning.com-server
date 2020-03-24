@@ -20,12 +20,11 @@ var everyDay = new Vue({
     }
 });
 
-
 var articleList = new Vue({
     el: '#articleList',
     data: {
         nowPage: 1, // 当前页码
-        pageSize: 5, // 每页显示的文章数量
+        pageSize: 6, // 每页显示的文章数量
         count: 100, // 文章总数
         pageNumList: [],
         articleList: [
@@ -36,22 +35,6 @@ var articleList = new Vue({
                 views: '103',
                 tags: 'laravel',
                 id: '1',
-                link: ''
-            }, {
-                title: 'Laravel5.4安装passport时遇到的一些问题',
-                content: '安装时可能不支持高版本，我使用了composer require laravel/passport ~4.0安装后执行迁移时nothing to migrate，需要手动注册Provider， 在config/app.php中providers中添加Laravel\\Passport\\PassportServiceProvider::class。执行php artisan passport:install时提示“There are no commands defined in the “passport” namespace.” 需要执行cache:clear和config:cache 更新缓存。...',
-                date: '2019-12-06',
-                views: '103',
-                tags: 'laravel',
-                id: '2',
-                link: ''
-            }, {
-                title: 'Laravel5.4安装passport时遇到的一些问题',
-                content: '安装时可能不支持高版本，我使用了composer require laravel/passport ~4.0安装后执行迁移时nothing to migrate，需要手动注册Provider， 在config/app.php中providers中添加Laravel\\Passport\\PassportServiceProvider::class。执行php artisan passport:install时提示“There are no commands defined in the “passport” namespace.” 需要执行cache:clear和config:cache 更新缓存。...',
-                date: '2019-12-06',
-                views: '103',
-                tags: 'laravel',
-                id: '3',
                 link: ''
             }
         ]
@@ -64,12 +47,14 @@ var articleList = new Vue({
         },
         getPage: function () {
             return function (page, pageSize) {
-                var urlSearchParams = location.search.indexOf('?') > -1 ? location.search.split('?')[1].split('&') : '';
+                let urlSearchParams = location.search.indexOf('?') > -1 ? location.search.split('?')[1].split('&') : '';
 
-                var tagId = '';
+                let tagId = '';
+                let search = '';
 
                 for (var i = 0; i < urlSearchParams.length; i ++) {
                     let urlParams = urlSearchParams[i].split('=');
+                    // 是否存在tagId
                     if (urlParams[0] === 'tagId') {
                         try {
                             tagId = urlParams[1]
@@ -77,78 +62,109 @@ var articleList = new Vue({
                             console.log(e)
                         }
                     }
-                }
 
-                if (tagId === '') { // 不是查询情况
-                    // 获取article列表
-                    axios({
-                        url: '/queryBlogByPage?page=' + (page - 1) + '&pageSize=' + pageSize,
-                        method: 'get'
-                    }).then(function (res) {
-                        var result = res.data.data;
-                        var list = [];
-                        for (var i = 0; i < result.length; i++) {
-                            var temp = {};
-                            temp.title = result[i].title;
-                            temp.content = result[i].content;
-                            temp.date = result[i].ctime;
-                            temp.views = result[i].views;
-                            temp.tags = result[i].tags;
-                            temp.id = result[i].id;
-                            temp.link = "/blog_detail.html?bid=" + result[i].id;
-                            list.push(temp)
+                    // 是否存在search
+                    if (urlParams[0] === 'search') {
+                        try {
+                            search = urlParams[1]
+                        } catch (e) {
+                            console.log(e)
                         }
-                        articleList.articleList = list;
-                        articleList.nowPage = page;
-                        articleList.generatePageTool;
-                    }).catch(function (error) {
-                        console.log(error)
-                    });
+                    }
+                }
+                console.log('tagId: '+ tagId, 'search: ' + search);
+                if (tagId === '' && search === '') { // 不是查询情况和搜索情况
+                    // 获取article列表
+                    this.queryBlogList(page, pageSize);
+
                     // 获取博客文章总数
                     axios({
                         url: '/queryBlogCount',
                         method: 'get'
                     }).then(function (res) {
                         articleList.count = res.data.data[0].count;
-                        articleList.generatePageTool;
+                        articleList.generatePageTool();
                     })
-                } else { // 通过tagId查询文章列表
-                    axios({
-                        url: '/queryBlogsByTagId?tagId=' + tagId + '&page=' + (page - 1) + '&pageSize=' + pageSize,
-                        method: 'get'
-                    }).then(function (res) {
-                        var result = res.data.data;
-                        var list = [];
-                        for (var i = 0; i < result.length; i++) {
-                            var temp = {};
-                            temp.title = result[i].title;
-                            temp.content = result[i].content;
-                            temp.date = result[i].ctime;
-                            temp.views = result[i].views;
-                            temp.tags = result[i].tags;
-                            temp.id = result[i].id;
-                            temp.link = "/blog_detail.html?bid=" + result[i].id;
-                            list.push(temp)
-                        }
-                        articleList.articleList = list;
-                        articleList.nowPage = page;
-                        articleList.generatePageTool;
-                    }).catch(function (error) {
-                        console.log(error)
-                    });
+                } else if (tagId) { // 通过tagId查询文章列表
+                    this.queryBlogsByTagId(tagId, page, pageSize);
+
                     // 获取博客文章总数
                     axios({
                         url: '/queryBlogCountByTagId?tagId=' + tagId,
                         method: 'get'
                     }).then(function (res) {
                         articleList.count = res.data.data[0].count;
-                        articleList.generatePageTool;
+                        articleList.generatePageTool();
                     }).catch(function (error) {
                         console.log(error)
                     })
+                } else if (!tagId && search) { // 全局搜索情况
+                    this.queryBlogBySearch(search, page, pageSize);
+                    // 获取博客文章总数
+                    axios({
+                        url: '/queryBlogCountBySearch?search=' + search,
+                        method: 'get'
+                    }).then(function (res) {
+                        articleList.count = res.data.data[0].count;
+                        articleList.generatePageTool();
+                    })
                 }
-
             }
+        }
+    },
+    created() {
+        this.getPage(this.nowPage, this.pageSize);
+    },
+    methods: {
+        queryBlogList(page, pageSize) {
+            axios({
+                url: '/queryBlogByPage?page=' + (page - 1) + '&pageSize=' + pageSize,
+                method: 'get'
+            }).then(function (res) {
+                var result = res.data.data;
+                var list = [];
+                for (var i = 0; i < result.length; i++) {
+                    var temp = {};
+                    temp.title = result[i].title;
+                    temp.content = result[i].content;
+                    temp.date = result[i].ctime;
+                    temp.views = result[i].views;
+                    temp.tags = result[i].tags;
+                    temp.id = result[i].id;
+                    temp.link = "/blog_detail.html?bid=" + result[i].id;
+                    list.push(temp)
+                }
+                articleList.articleList = list;
+                articleList.nowPage = page;
+                articleList.generatePageTool();
+            }).catch(function (error) {
+                console.log(error)
+            });
+        },
+        queryBlogsByTagId(tagId, page, pageSize) {
+            axios({
+                url: '/queryBlogsByTagId?tagId=' + tagId + '&page=' + (page - 1) + '&pageSize=' + pageSize,
+                method: 'get'
+            }).then(function (res) {
+                var result = res.data.data;
+                var list = [];
+                for (var i = 0; i < result.length; i++) {
+                    var temp = {};
+                    temp.title = result[i].title;
+                    temp.content = result[i].content;
+                    temp.date = result[i].ctime;
+                    temp.views = result[i].views;
+                    temp.tags = result[i].tags;
+                    temp.id = result[i].id;
+                    temp.link = "/blog_detail.html?bid=" + result[i].id;
+                    list.push(temp)
+                }
+                articleList.articleList = list;
+                articleList.nowPage = page;
+                articleList.generatePageTool();
+            }).catch(function (error) {
+                console.log(error)
+            });
         },
         generatePageTool() {
             var nowPage = this.nowPage;
@@ -192,9 +208,31 @@ var articleList = new Vue({
             result.push({text: ">>", page: parseInt(totalPage)});
             this.pageNumList = result;
             return result;
+        },
+        queryBlogBySearch(searchText, page, pageSize) {
+            axios({
+                url: '/queryBlogBySearch?search=' + searchText + '&page=' + (page - 1) + '&pageSize=' + pageSize,
+                method: 'get'
+            }).then(function (res) {
+                var result = res.data.data;
+                var list = [];
+                for (var i = 0; i < result.length; i++) {
+                    var temp = {};
+                    temp.title = result[i].title;
+                    temp.content = result[i].content;
+                    temp.date = result[i].ctime;
+                    temp.views = result[i].views;
+                    temp.tags = result[i].tags;
+                    temp.id = result[i].id;
+                    temp.link = "/blog_detail.html?bid=" + result[i].id;
+                    list.push(temp)
+                }
+                articleList.articleList = list;
+                articleList.nowPage = page;
+                articleList.generatePageTool()
+            }).catch(function (error) {
+                console.log(error)
+            })
         }
-    },
-    created() {
-        this.getPage(this.nowPage, this.pageSize);
     }
 });
