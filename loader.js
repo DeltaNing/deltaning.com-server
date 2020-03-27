@@ -10,15 +10,23 @@ var files = fs.readdirSync(globalConfig['web_path']); // 读取路径下的所�
 console.log('files:', files);
 for (var i = 0; i < files.length; i ++) {
     var temp = require('./' + globalConfig["web_path"] + '/' + files[i]);
-    // console.log(temp)
+    console.log(temp.path)
     if (temp.path) {
-        for (var [key, value] of temp.path) {
+        // for (var [key, value] of temp.path) {
+        //     // console.log(key, value)
+        //     if (pathMap.get(key) == null) {
+        //         pathMap.set(key, value);
+        //     } else {
+        //         throw new Error('url path异常，url: ' + key);
+        //     }
+        // }
+        temp.path.forEach(function (value, key, map) {
             if (pathMap.get(key) == null) {
                 pathMap.set(key, value);
             } else {
                 throw new Error('url path异常，url: ' + key);
             }
-        }
+        })
         controllerSet.push(temp)
     }
 }
