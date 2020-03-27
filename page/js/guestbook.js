@@ -90,7 +90,7 @@ var guestbookComments = new Vue({
                     method: 'get'
                 }).then(function (res) {
                     guestbookComments.commentsList = res.data.data;
-                    for (let i = 0; i < guestbookComments.commentsList.length ; i ++) {
+                    for (var i = 0; i < guestbookComments.commentsList.length ; i ++) {
                         if (guestbookComments.commentsList[i].parent > -1) {
                             guestbookComments.commentsList[i].options = "回复@" + guestbookComments.commentsList[i].parent_name;
                         }

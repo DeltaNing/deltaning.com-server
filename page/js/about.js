@@ -90,7 +90,7 @@ var aboutComments = new Vue({
                     method: 'get'
                 }).then(function (res) {
                     aboutComments.commentsList = res.data.data;
-                    for (let i = 0; i < aboutComments.commentsList.length ; i ++) {
+                    for (var i = 0; i < aboutComments.commentsList.length ; i ++) {
                         if (aboutComments.commentsList[i].parent > -1) {
                             aboutComments.commentsList[i].options = "回复@" + aboutComments.commentsList[i].parent_name;
                         }

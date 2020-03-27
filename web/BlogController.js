@@ -8,7 +8,7 @@ var url = require('url');
 
 
 function queryBlogCountBySearch(request, response) {
-    let params = url.parse(request.url, true).query;
+    var params = url.parse(request.url, true).query;
     blogDao.queryBlogCountBySearch(params.search, function (result) {
         response.writeHead(200);
         response.write(respUtil.writeResult('success', '更新成功', result));
@@ -19,7 +19,7 @@ function queryBlogCountBySearch(request, response) {
 path.set('/queryBlogCountBySearch', queryBlogCountBySearch);
 
 function queryBlogBySearch(request, response) {
-    let params = url.parse(request.url, true).query;
+    var params = url.parse(request.url, true).query;
     blogDao.queryBlogBySearch(params.search, parseInt(params.page), parseInt(params.pageSize), function (result) {
         for (var i = 0; i < result.length; i ++) {
             result[i].content = result[i].content.replace(/<img[\w\W]*">/, ''); // 去除img标签

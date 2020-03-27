@@ -12,7 +12,7 @@ var blogList = new Vue({
             method: 'get'
         }).then(function (res) {
             console.log(res)
-            let data = res.data.data;
+            var data = res.data.data;
             for (var i = 0; i < data.length; i ++) {
                 data[i].link = '/blog_detail.html?bid=' + data[i].id;
             }

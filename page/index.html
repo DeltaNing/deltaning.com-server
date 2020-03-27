@@ -120,16 +120,16 @@
 <script src="./js/base.js"></script>
 <script>
     function timeTransfer(timestamp) {
-        let text = '';
-        let now = new Date().getTime()/1000;
+        var text = '';
+        var now = new Date().getTime()/1000;
         const LIMIT3MOUNTH = parseInt(60 * 60 * 24 * 90); // 3个月即90天的时间戳
         const LIMIT2MOUNTH = parseInt(60 * 60 * 24 * 60); // 2个月即60天的时间戳
         const LIMIT1MOUNTH = parseInt(60 * 60 * 24 * 1); // 1个月即30天的时间戳
         if (parseInt(now - timestamp) > LIMIT1MOUNTH) {
             text = '1天前'
         }
-        let dateNow = new Date(parseInt(now * 1000));
-        let date = new Date(parseInt(timestamp * 1000));
+        var dateNow = new Date(parseInt(now * 1000));
+        var date = new Date(parseInt(timestamp * 1000));
         console.log(text)
     }
     timeTransfer(1584699093)

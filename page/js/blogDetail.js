@@ -173,7 +173,7 @@ var blogComments = new Vue({
                     method: 'get'
                 }).then(function (res) {
                     blogComments.commentsList = res.data.data;
-                    for (let i = 0; i < blogComments.commentsList.length ; i ++) {
+                    for (var i = 0; i < blogComments.commentsList.length ; i ++) {
                         if (blogComments.commentsList[i].parent > -1) {
                             blogComments.commentsList[i].options = "回复@" + blogComments.commentsList[i].parent_name;
                         }

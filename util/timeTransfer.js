@@ -2,6 +2,6 @@
 
 // @params timestamp 单位是s秒
 function timeTransfer(timestamp) {
-    let now = new Date().getTime()/1000;
+    var now = new Date().getTime()/1000;
     console.log(now)
 }

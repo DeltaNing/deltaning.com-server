@@ -47,13 +47,13 @@ var articleList = new Vue({
         },
         getPage: function () {
             return function (page, pageSize) {
-                let urlSearchParams = location.search.indexOf('?') > -1 ? location.search.split('?')[1].split('&') : '';
+                var urlSearchParams = location.search.indexOf('?') > -1 ? location.search.split('?')[1].split('&') : '';
 
-                let tagId = '';
-                let search = '';
+                var tagId = '';
+                var search = '';
 
                 for (var i = 0; i < urlSearchParams.length; i ++) {
-                    let urlParams = urlSearchParams[i].split('=');
+                    var urlParams = urlSearchParams[i].split('=');
                     // 是否存在tagId
                     if (urlParams[0] === 'tagId') {
                         try {

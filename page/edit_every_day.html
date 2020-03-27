@@ -20,7 +20,7 @@
     <script>
         function submit() {
             // alert('已提交');
-            let content = $('#editor').html();
+            var content = $('#editor').html();
             $.ajax({
                 url: '/editEveryday',
                 method: 'post',

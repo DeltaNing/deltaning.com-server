@@ -19,7 +19,7 @@
     <script src="./bootstrap-wysiwyg-master/bootstrap-wysiwyg.js"></script>
     <script>
         function submit() {
-            let title = $('#title').val(),
+            var title = $('#title').val(),
                 tags = $('#tags').val(),
                 content = $('#editor').html();
             if (!title || !tags || !content) {

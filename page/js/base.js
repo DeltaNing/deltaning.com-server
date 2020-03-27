@@ -1,4 +1,4 @@
-let randomTags = new Vue({
+var randomTags = new Vue({
    el: '#randomTags',
    data: {
        tagList: [{link: '', tag: ''}]
@@ -6,7 +6,7 @@ let randomTags = new Vue({
     computed: {
         tagColor() {
             return function () {
-                let r = Math.random() * 255 + 50,
+                var r = Math.random() * 255 + 50,
                     g = Math.random() * 255 + 50,
                     b = Math.random() * 255 + 50;
                 return `rgb(${r}, ${g}, ${b})`
@@ -40,7 +40,7 @@ let randomTags = new Vue({
 });
 
 
-let newHot = new Vue({
+var newHot = new Vue({
    el: '#newHot',
    data: {
         hotList: [
@@ -72,7 +72,7 @@ let newHot = new Vue({
     }
 });
 
-let newComments = new Vue({
+var newComments = new Vue({
    el: '#newComments',
    data: {
        commentList: [
@@ -117,14 +117,14 @@ let newComments = new Vue({
     }
 });
 
-let search = new Vue({
+var search = new Vue({
     el: '#searchBar',
     data: {},
     computed: {},
     created() {},
     methods: {
         searchBlog() {
-            let searchText = document.getElementById('searchText').value;
+            var searchText = document.getElementById('searchText').value;
             location.href = '/?search=' + searchText;
             console.log(searchText)
         }
