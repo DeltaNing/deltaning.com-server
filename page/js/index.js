@@ -127,7 +127,7 @@ var articleList = new Vue({
                     var temp = {};
                     temp.title = result[i].title;
                     temp.content = result[i].content;
-                    temp.date = result[i].ctime;
+                    temp.date = timeStamp(result[i].ctime, '-', false);
                     temp.views = result[i].views;
                     temp.tags = result[i].tags;
                     temp.id = result[i].id;
@@ -136,7 +136,7 @@ var articleList = new Vue({
                 }
                 articleList.articleList = list;
                 articleList.nowPage = page;
-                articleList.generatePageTool();
+                articleList.generatePageTool()
             }).catch(function (error) {
                 console.log(error)
             });
@@ -152,7 +152,7 @@ var articleList = new Vue({
                     var temp = {};
                     temp.title = result[i].title;
                     temp.content = result[i].content;
-                    temp.date = result[i].ctime;
+                    temp.date = timeStamp(result[i].ctime, '-', false);
                     temp.views = result[i].views;
                     temp.tags = result[i].tags;
                     temp.id = result[i].id;
@@ -220,7 +220,7 @@ var articleList = new Vue({
                     var temp = {};
                     temp.title = result[i].title;
                     temp.content = result[i].content;
-                    temp.date = result[i].ctime;
+                    temp.date = timeStamp(result[i].ctime, '-', false);
                     temp.views = result[i].views;
                     temp.tags = result[i].tags;
                     temp.id = result[i].id;
@@ -236,3 +236,4 @@ var articleList = new Vue({
         }
     }
 });
+

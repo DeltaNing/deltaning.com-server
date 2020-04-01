@@ -51,6 +51,12 @@ var sendComment = new Vue({
                     method: 'get',
                     url: `/addComment?bid=${bid}&parent=${parent}&parentName=${parentName}&name=${name}&email=${email}&comments=${comments}`
                 }).then(function (res) {
+                    sendComment.showTips = true;
+                    sendComment.tipText = '提交成功';
+                    setTimeout(function () {
+                        sendComment.showTips = false;
+                        sendComment.tipText = '';
+                    }, 2000);
                     console.log(res)
                 }).catch(function (error) {
                     console.log(error)
@@ -91,6 +97,7 @@ var aboutComments = new Vue({
                 }).then(function (res) {
                     aboutComments.commentsList = res.data.data;
                     for (var i = 0; i < aboutComments.commentsList.length ; i ++) {
+                        aboutComments.commentsList[i].ctime = timeStamp(aboutComments.commentsList[i].ctime, 'zh', true);
                         if (aboutComments.commentsList[i].parent > -1) {
                             aboutComments.commentsList[i].options = "回复@" + aboutComments.commentsList[i].parent_name;
                         }

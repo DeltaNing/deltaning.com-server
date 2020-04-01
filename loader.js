@@ -7,10 +7,10 @@ var controllerSet = [];
 var pathMap = new Map();
 
 var files = fs.readdirSync(globalConfig['web_path']); // 读取路径下的所有文件
-console.log('files:', files);
+// console.log('files:', files);
 for (var i = 0; i < files.length; i ++) {
     var temp = require('./' + globalConfig["web_path"] + '/' + files[i]);
-    console.log(temp.path)
+    // console.log(temp.path)
     if (temp.path) {
         // for (var [key, value] of temp.path) {
         //     // console.log(key, value)

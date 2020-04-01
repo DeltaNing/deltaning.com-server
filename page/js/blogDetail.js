@@ -36,7 +36,7 @@ var blogDetail = new Vue({
             blogDetail.content = result.content;
             blogDetail.tags = result.tags;
             blogDetail.views = result.views;
-            blogDetail.ctime = result.ctime;
+            blogDetail.ctime = timeStamp(result.ctime, 'zh', true);
         }).catch(function (error) {
             console.log(error)
         })
@@ -120,6 +120,12 @@ var sendComment = new Vue({
                     method: 'get',
                     url: `/addComment?bid=${bid}&parent=${parent}&parentName=${parentName}&name=${name}&email=${email}&comments=${comments}`
                 }).then(function (res) {
+                    sendComment.showTips = true;
+                    sendComment.tipText = '提交成功';
+                    setTimeout(function () {
+                        sendComment.showTips = false;
+                        sendComment.tipText = '';
+                    }, 2000);
                     console.log(res)
                 }).catch(function (error) {
                     console.log(error)
