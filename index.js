@@ -1,12 +1,11 @@
 var express = require("express"); // 引入express
 var globalConfig = require('./config'); // 引入配置文件
 var loader = require('./loader'); // 引入路径的键值对
-var bodyParser = require('body-parser');
-
 var app = new express(); // 新建一个服务
 
-app.use(bodyParser.urlencoded({limit: '50mb', extende:true}));
-app.use(bodyParser.json({limit: '50mb'}));
+
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb', extended: true}));
 
 app.use(express.static("./page/")); // 设置静态文件所在目录，express默认找page文件夹下的index.html文件
 

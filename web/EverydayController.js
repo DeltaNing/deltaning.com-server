@@ -5,15 +5,15 @@ var timeUtil = require('../util/TimeUtil');
 var respUtil = require('../util/WriteUtil');
 
 function editEveryday(request, response) {
-    request.on('data', function (data) {
-        // data是前端发送过来的数据
-        // 将前端发来的数据插入到数据库
-        everydayDao.insertEveryday(data.toString().trim(), timeUtil.getNowDate(), function (result) {
-            response.writeHead(200);
-            response.write(respUtil.writeResult("success", "添加成功", null));
-            response.end();
-        });
-    })
+    if (!request.body) {
+        return response.sendStatus(400);
+    }
+    // 将前端发来的数据插入到数据库
+    everydayDao.insertEveryday(request.body.content, timeUtil.getNowDate(), function (result) {
+        response.writeHead(200);
+        response.write(respUtil.writeResult("success", "添加成功", null));
+        response.end();
+    });
 }
 
 function queryEveryday(request, response) {
