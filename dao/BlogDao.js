@@ -2,10 +2,11 @@ var dbutil = require('./DBUtil');
 
 function insertBlog(content, title, tags, views, ctime, utime, success) {
     // 定义插入数据库语句
+    // console.log(content)
     var insertSql = 'insert into blog set ?';
     var params = {
         content, title, views, tags, ctime, utime
-    }
+    };
 
     // 链接数据库并执行插入操作
     var connection = dbutil.createConnection();

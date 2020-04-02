@@ -26,13 +26,15 @@
                 alert('内容不能为空');
                 return false;
             }
+            console.log('1234567i8')
             $.ajax({
                 url: '/editBlog?title=' + title + '&tags=' + tags,
                 method: 'post',
                 data: content,
+                dataType: 'json',
                 success: function (res) {
-                    var result = JSON.parse(res);
-                    console.log(result);
+                    // var result = JSON.parse(res);
+                    console.log(res);
                     // $('#editor').html('');
                 },
                 error: function (err) {

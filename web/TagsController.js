@@ -3,6 +3,7 @@ var blogDao = require('../dao/BlogDao');
 var tagDao = require('../dao/TagsDao');
 var tagBlogMappingDao = require('../dao/TagBlogMappingDao');
 var respUtil = require('../util/WriteUtil');
+var resultUtil = require('../util/resultUtil');
 var url = require('url');
 
 function queryRandomTags(request, response) {
@@ -23,12 +24,7 @@ function queryBlogsByTagId(request, response) {
     tagBlogMappingDao.queryBlogIdByTagId(parseInt(params.tagId), function (res) {
         // 根据blogId查询blog详情
         blogDao.queryBlogByIds(res, parseInt(params.page), parseInt(params.pageSize), function (result) {
-            for (var i = 0; i < result.length; i ++) {
-                result[i].content = result[i].content.replace(/<img[\w\W]*">/, ''); // 去除img标签
-                result[i].content = result[i].content.replace(/<[^>]+>/g, ''); // 去除其他标签
-                result[i].content = result[i].content.replace(/&nbsp;/g, ''); // 去除空行
-                result[i].content = result[i].content.substring(0, 200) + '...';
-            }
+            result = resultUtil.filterResult(result);
             response.writeHead(200);
             response.write(respUtil.writeResult('success', '查询成功', result));
             response.end();
