@@ -4,14 +4,21 @@ var loader = require('./loader'); // 引入路径的键值对
 var app = new express(); // 新建一个服务
 
 
-app.use(express.json({limit: '50mb'}));
+app.use(express.json({limit: '50mb', type: 'application/x-www-form-urlencoded'})); // 这里得type要与请求设置得content-type相匹配
 app.use(express.urlencoded({limit: '50mb', extended: true}));
 
-app.use(express.static("./page/")); // 设置静态文件所在目录，express默认找page文件夹下的index.html文件
+// app.use(express.static("./page/")); // 设置静态文件所在目录，express默认找page文件夹下的index.html文件
 
 /* 定义路由 */
 
-
+app.all('*', function (req, res, next) {
+   res.header("Access-Control-Allow-Origin", "*");
+   res.header("Access-Control-Allow-Headers", "X-Requested-With");
+   res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS");
+   res.header("X-Powered-By",' 3.2.1');
+   res.header("Content-Type", "application/json;charset=utf-8");
+   next();
+});
 // 发送新编辑的每日一句的接口
 app.post('/editEveryday', loader.get('/editEveryday'));
 // 获取最新每日一句的接口

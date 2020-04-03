@@ -15,6 +15,9 @@
     <script src="./bootstrap-wysiwyg-master/external/google-code-prettify/prettify.js"></script>
     <link href="./bootstrap-wysiwyg-master/index.css" rel="stylesheet">
     <script src="./bootstrap-wysiwyg-master/bootstrap-wysiwyg.js"></script>
+
+    <script src="./js/axios.js"></script>
+    <script src="./js/request.js"></script>
     <script>
         function submit() {
             var title = $('#title').val(),
@@ -25,19 +28,23 @@
                 return false;
             }
             console.log('1234567i8')
-            $.ajax({
+            axios({
                 url: '/editBlog?title=' + title + '&tags=' + tags,
                 method: 'post',
                 data: {content: content},
-                dataType: 'json',
-                success: function (res) {
-                    // var result = JSON.parse(res);
-                    console.log(res);
-                    // $('#editor').html('');
-                },
-                error: function (err) {
-                    console.log(err)
-                }
+                // dataType: 'json',
+                // success: function (res) {
+                //     // var result = JSON.parse(res);
+                //     console.log(res);
+                //     // $('#editor').html('');
+                // },
+                // error: function (err) {
+                //     console.log(err)
+                // }
+            }).then(function (res) {
+                console.log(res)
+            }).catch(function (error) {
+                console.log(error)
             })
         }
     </script>

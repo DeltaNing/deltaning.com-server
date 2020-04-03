@@ -22,3 +22,6 @@ var blogList = new Vue({
         })
     }
 });
+//
+// var x = require('../../util/resultUtil');
+// console.log(x)

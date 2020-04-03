@@ -17,22 +17,28 @@
     <script src="./bootstrap-wysiwyg-master/external/google-code-prettify/prettify.js"></script>
     <link href="./bootstrap-wysiwyg-master/index.css" rel="stylesheet">
     <script src="./bootstrap-wysiwyg-master/bootstrap-wysiwyg.js"></script>
+    <script src="./js/axios.js"></script>
+    <script src="./js/request.js"></script>
     <script>
         function submit() {
             // alert('已提交');
             var content = $('#editor').html();
-            $.ajax({
+            axios({
                 url: '/editEveryday',
                 method: 'post',
                 data: {content: content},
-                success: function (res) {
-                    // var result = JSON.parse(res);
-                    console.log(res);
-                    $('#editor').html('');
-                },
-                error: function (err) {
-                    console.log(err)
-                }
+                // success: function (res) {
+                //     // var result = JSON.parse(res);
+                //     console.log(res);
+                //     $('#editor').html('');
+                // },
+                // error: function (err) {
+                //     console.log(err)
+                // }
+            }).then(function (res) {
+                console.log(res)
+            }).catch(function (error) {
+                console.log(error)
             })
         }
     </script>
