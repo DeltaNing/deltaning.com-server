@@ -118,7 +118,7 @@ function editBlog(req, res) {
         return res.sendStatus(400)
     }
     var content = req.body.content;
-    console.log(req.body)
+    // console.log(req.body)
     blogDao.insertBlog(content, params.title, tags, 0, timeUtil.getNowDate(), timeUtil.getNowDate(), function (result) {
         // console.log('controller 22222222222222222222222', content);
         res.writeHead(200);

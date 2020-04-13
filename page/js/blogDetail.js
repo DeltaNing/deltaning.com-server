@@ -37,6 +37,11 @@ var blogDetail = new Vue({
             blogDetail.tags = result.tags;
             blogDetail.views = result.views;
             blogDetail.ctime = timeStamp(result.ctime, 'zh', true);
+            // 插入meta描述
+            var metaTag = document.createElement('meta');
+            metaTag.name = 'description';
+            metaTag.content = blogDetail.title;
+            document.getElementsByTagName('head')[0].appendChild(metaTag);
         }).catch(function (error) {
             console.log(error)
         })
